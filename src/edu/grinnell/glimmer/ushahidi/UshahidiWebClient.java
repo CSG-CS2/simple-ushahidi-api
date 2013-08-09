@@ -28,8 +28,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-
 /**
  * An Ushahidi client that gets in data from the Web.  The most typical
  * form of Ushahidi client.
@@ -65,7 +63,7 @@ public class UshahidiWebClient implements UshahidiClient {
     /**
      * All of the incidents that we've loaded so far.
      */
-    ArrayList<UshahidiIncident> incidents = null;
+    UshahidiIncidentList incidents = null;
 
     /**
      * The base URL of the server that we're using (protocol plus
@@ -82,11 +80,6 @@ public class UshahidiWebClient implements UshahidiClient {
      * The number of incidents we fetch.
      */
     int numIncidents;
-
-    /**
-     * An index into the ArrayList, used for the simple iterator.
-     */
-    int index;
 
     // +--------------+---------------------------------------------------
     // | Constructors |
@@ -132,9 +125,8 @@ public class UshahidiWebClient implements UshahidiClient {
         // Fill in the fields
         this.server = server;
         this.numIncidents = numIncidents;
-        this.index = 0;
         this.maxId = 0;
-        this.incidents = new ArrayList<UshahidiIncident>();
+        this.incidents = new UshahidiIncidentList();
         if (this.fetchIncidents () == 0) {
           throw new Exception("No incidents available.");
         } // if (this.fetchIndicents() == 0)
@@ -235,7 +227,7 @@ public class UshahidiWebClient implements UshahidiClient {
         for (int i = 0; i < len; i++) {
             UshahidiIncident nextIncident = 
                new UshahidiIncident((JSONObject) incidents.get(i));
-            this.incidents.add(nextIncident);
+            this.incidents.addIncident(nextIncident);
             if (nextIncident.getIncidentId() > this.maxId)
                 this.maxId = nextIncident.getIncidentId();
         } // for
@@ -247,16 +239,17 @@ public class UshahidiWebClient implements UshahidiClient {
     // +----------------+
 
     public UshahidiIncident[] getIncidents() {
-        // STUB
-        return null;
+        return this.incidents.getIncidents();
     } // getIncidents()
 
     /**
      * Determine if any unseen incidents remain.
      */
     public boolean hasMoreIncidents() {
-        if (this.index < this.incidents.size())
+        // If the list has more incidents, we're set.
+        if (this.incidents.hasMoreIncidents())
             return true;
+        // Otherwise, try to fetch some more incidents.
         try {
             return (this.fetchIncidents() > 0);
         } catch (Exception e) {
@@ -271,14 +264,14 @@ public class UshahidiWebClient implements UshahidiClient {
      */
     public UshahidiIncident nextIncident() throws Exception {
         // If there aren't any unvisited incidents left
-        if (this.index >= this.incidents.size()) {
+        if (!this.incidents.hasMoreIncidents()) {
             // Try to get some more
             if (this.fetchIncidents() == 0) {
                 throw new Exception("No incidents remain.");
             } // if we can't fetch any incidents
         } // if no incidents rmeain
 
-        return this.incidents.get(this.index++);
+        return this.incidents.nextIncident();
     } // nextIncident
 
 } // UshahidiClient
