@@ -6,4 +6,4 @@ clean:
 
 .PHONY: compile
 compile:
-	javac *.jar
+	javac -cp ../simple-ushahidi-api.jar *.java
