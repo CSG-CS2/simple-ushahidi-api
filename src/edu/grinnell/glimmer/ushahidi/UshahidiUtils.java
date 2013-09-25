@@ -1,6 +1,5 @@
 /**
- * Copyright (c) 2013 Samuel A. Rebelsky and Daniel Torres.  All rights
- * reserved.
+ * Copyright (c) 2013 Samuel A. Rebelsky.   All rights reserved.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the Lesser GNU General Public License as published 
@@ -18,37 +17,80 @@
 
 package edu.grinnell.glimmer.ushahidi;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.json.JSONArray;
-
 /**
- * A simple representation of Ushahidi incidents.
+ * Utilities for working with Ushahidi.
  *
  * @version     0.3 of 16 September 2013
  * @author      Daniel Torres
  * @author      Samuel A. Rebelsky
  */
-public class UshahidiIncident {
+public class UshahidiUtils {
 
     // +-----------+------------------------------------------------------    
     // | Constants |
     // +-----------+
 
     /**
-     * The constant used to indicate an invalid location.
+     * A sample Ushahidi location.
      */
-    public static final int INVALID_INCIDENT_ID = 0;
+    public static UshahidiLocation SAMPLE_LOCATION =
+        sampleLocation();
 
     /**
-     * The format in which Ushahidi seems to report dates.  (Really?)
+     * A sample Ushahidi incident.
      */
-    static final SimpleDateFormat dateFormat = 
-      new SimpleDateFormat("dd-MM-yy hh:mm:ss");
+    public static final UshahidiIncident SAMPLE_INCIDENT =
+        sampleIncident();
+
+    // +----------------+-------------------------------------------------    
+    // | Static Methods |
+    // +----------------+
+
+    /**
+     * Create a "random" location.
+     */
+    public static UshahidiLocation randomLocation() {
+        UshahidiLocation random = new UshahidiLocation(1000 + random(1000),
+                "Somewhere", (Math.random() * 180) - 90,
+                (Math.random() * 360) - 180);
+        return random;
+    } // randomLocation
+
+    /**
+     * Create a sample location.
+     */
+    public static UshahidiLocation sampleLocation() {
+        UshahidiLocation sample = new UsahidiLocation(100, "Grinnell",
+                41.7436, 92.7247);
+        return sample;
+    } // sampleLocation
+
+    /**
+     * Create a "random" incident.
+     */
+    public static UshahidiIncident randomIncident() {
+        UsahidiIncident random = 
+                UshahidiIncident(1000 + Math.random(1000), "Something happened");
+        random.mode = Math.random(1);
+        random.date = new Date(2012 + Math.random(5), 1 + Math.random(12), Math.random(30));
+        random.active = Math.random(2);
+        random.verified = Math.random(2);
+        random.location = randomLocation();
+        return random;
+    } // randomIncident
+
+    /**
+     * Create a sample indicent.
+     */
+    static UshahidiIncident sampleIncident() {
+         UshahidiIncident sample = new UshahidiIncident(1, "Sample Incident");
+         sample.mode = 0;
+         sample.date = new Date(2013, 09, 01);
+         sample.active = 1;
+         sample.verified = 1;
+         sample.location = sampleLocation();
+         return sample;
+    } // sampleIncident
 
     // +--------+---------------------------------------------------------    
     // | Fields |
@@ -263,49 +305,49 @@ public class UshahidiIncident {
      * for an unitialized or otherwise defective incident.
      */
     public int getId() {
-        return this.id;
+        return incidentId;
     } // getId()
 
     /**
      * Get the title of the incident.
      */
     public String getTitle() {
-        return this.title;
+        return incidentTitle;
     } // getTitle()
 
     /** 
      * Get a description of the incident.  This may be an empty string.
      */
     public String getDescription() {
-        return this.description;
+        return incidentDescription;
     } // getDescription()
 
     /**
      * Get the date the incident was reported.
      */
    public Date getDate() {
-        return this.date;
+        return incidentDate;
     } // getDate()
 
     /**
      * Get the mode of the incident.
      */
     public int getMode() {
-        return this.mode;
+        return incidentMode;
     } // getMode()
     
     /**
      * Determine whether or not the incident is active.
      */
     public int getActive() {
-        return this.active;
+        return incidentActive;
     } // getActive()
 
     /**
      * Determine whether or not the incident is verified.
      */
     public int getVerified() {
-        return this.verified;
+        return incidentVerified;
     } // getVerified()
 
     /**
