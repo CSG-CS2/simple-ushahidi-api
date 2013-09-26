@@ -18,12 +18,12 @@
 package edu.grinnell.glimmer.ushahidi;
 
 /**
- * A simple representation of Ushahidi clients.  Provides incidents in an
- * iterator style (but without using Iterators, so that novices can
- * use it) and as an array.
- *
- * @version     0.3 of 25 September 2013
- * @author      Samuel A. Rebelsky
+ * A simple representation of Ushahidi clients. Provides incidents in an
+ * iterator style (but without using Iterators, so that novices can use it) and
+ * as an array.
+ * 
+ * @version 0.3 of 25 September 2013
+ * @author Samuel A. Rebelsky
  */
 public interface UshahidiClient {
     /**
@@ -35,11 +35,12 @@ public interface UshahidiClient {
      * Determine if any unseen incidents remain.
      */
     public boolean hasMoreIncidents();
-    
-    /** 
+
+    /**
      * Get the next unseen incident.
-     *
-     * @throws Exception     If no incidents remain.
+     * 
+     * @throws Exception
+     *             If no incidents remain.
      */
     public UshahidiIncident nextIncident() throws Exception;
 

@@ -17,28 +17,27 @@
 
 package edu.grinnell.glimmer.ushahidi;
 
-import java.util.ArrayList;
 import java.util.Collection;
 
 /**
- * A test harness for programs that work with UshahidiClient objects.
- * Lets you set up a simulated set of incidents and treat it as you
- * would an UshahidiWebClient.
- *
- * @version     0.3 of 25 September 2013
- * @author      Samuel A. Rebelsky
+ * A test harness for programs that work with UshahidiClient objects. Lets you
+ * set up a simulated set of incidents and treat it as you would an
+ * UshahidiWebClient.
+ * 
+ * @version 0.3 of 25 September 2013
+ * @author Samuel A. Rebelsky
  */
 public class UshahidiClientTestHarness extends UshahidiIncidentList {
     // +--------+---------------------------------------------------------
     // | Notess |
     // +--------+
-/*
-    Although UshahidiClientTestHarness is much like UshahidiIncidentList,
-    it is provided as a separate class in case we want to add some methods
-    to make testing easier, such as methods to add random elements.  (I'm
-    not sure why random elements would be useful for testing, but, hey, you
-    never know.)
- */
+    /*
+     * Although UshahidiClientTestHarness is much like UshahidiIncidentList, it
+     * is provided as a separate class in case we want to add some methods to
+     * make testing easier, such as methods to add random elements. (I'm not
+     * sure why random elements would be useful for testing, but, hey, you never
+     * know.)
+     */
 
     // +--------------+---------------------------------------------------
     // | Constructors |
@@ -48,15 +47,14 @@ public class UshahidiClientTestHarness extends UshahidiIncidentList {
      * Create a new test harness with no incidents.
      */
     public UshahidiClientTestHarness() {
-        super();
+	super();
     } // UshahidiClientTestHarness
 
     /**
      * Create a new test harness with a specified set of incidents.
      */
-    public UshahidiClientTestHarness(Collection<UshahidiIncident> incidents)
-    {
-        super(incidents);
+    public UshahidiClientTestHarness(Collection<UshahidiIncident> incidents) {
+	super(incidents);
     } // UshahidiClientTestHarness(Collection<UshahidiIncident>)
 
 } // UshahidiClientTestHarness

@@ -21,26 +21,25 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 /**
- * A simplified list of incidents, provided in a style similar to
- * that used for UshahidiClient.  Used in a variety of classes that
- * implement UshahidiClient.
- *
- * @version     0.3 of 25 September 2013
- * @author      Samuel A. Rebelsky
+ * A simplified list of incidents, provided in a style similar to that used for
+ * UshahidiClient. Used in a variety of classes that implement UshahidiClient.
+ * 
+ * @version 0.3 of 25 September 2013
+ * @author Samuel A. Rebelsky
  */
 public class UshahidiIncidentList implements UshahidiClient {
     // +--------+---------------------------------------------------------
     // | Notess |
     // +--------+
-/*
-    Although we could use an iterator to implement the hasMoreIncidents
-    (== hasNext) and nextIncident (== next), "[t]he behavior of an iterator 
-    is unspecified if the underlying collection is modified while the 
-    iteration is in progress" [1] and we'd like to be able to add
-    elements to the collection on the fly.
-
-    [1] http://docs.oracle.com/javase/6/docs/api/java/util/Iterator.html
- */
+    /*
+     * Although we could use an iterator to implement the hasMoreIncidents (==
+     * hasNext) and nextIncident (== next), "[t]he behavior of an iterator is
+     * unspecified if the underlying collection is modified while the iteration
+     * is in progress" [1] and we'd like to be able to add elements to the
+     * collection on the fly.
+     * 
+     * [1] http://docs.oracle.com/javase/6/docs/api/java/util/Iterator.html
+     */
 
     // +--------+---------------------------------------------------------
     // | Fields |
@@ -64,17 +63,16 @@ public class UshahidiIncidentList implements UshahidiClient {
      * Create a new list with no incidents.
      */
     public UshahidiIncidentList() {
-        this.incidents = new ArrayList<UshahidiIncident>();
-        this.index = 0;
+	this.incidents = new ArrayList<UshahidiIncident>();
+	this.index = 0;
     } // UshahidiIncidentList
 
     /**
      * Create a new list with a specified set of incidents.
      */
-    public UshahidiIncidentList(Collection<UshahidiIncident> incidents)
-    {
-        this.incidents = new ArrayList<UshahidiIncident>(incidents);
-        this.index = 0;
+    public UshahidiIncidentList(Collection<UshahidiIncident> incidents) {
+	this.incidents = new ArrayList<UshahidiIncident>(incidents);
+	this.index = 0;
     } // UshahidiIncidentList(Collection<UshahidiIncident>)
 
     // +------------------------+-----------------------------------------
@@ -85,23 +83,24 @@ public class UshahidiIncidentList implements UshahidiClient {
      * Get all of the incidents associated with this list.
      */
     public UshahidiIncident[] getIncidents() {
-        return (UshahidiIncident[]) this.incidents.toArray();
+	return (UshahidiIncident[]) this.incidents.toArray();
     } // getIncidents()
 
     /**
      * Determine if any unseen incidents remain.
      */
     public boolean hasMoreIncidents() {
-        return this.index < this.incidents.size();
+	return this.index < this.incidents.size();
     } // hasMoreIncidents()
-    
-    /** 
+
+    /**
      * Get the next unseen incident.
-     *
-     * @exception Exception     If no incidents remain.
+     * 
+     * @exception Exception
+     *                If no incidents remain.
      */
     public UshahidiIncident nextIncident() throws Exception {
-        return this.incidents.get(this.index++);
+	return this.incidents.get(this.index++);
     } // nextIncident()
 
     // +--------------------+---------------------------------------------
@@ -111,9 +110,8 @@ public class UshahidiIncidentList implements UshahidiClient {
     /**
      * Add an incident to the list.
      */
-    public void addIncident(UshahidiIncident incident)
-    {
-        this.incidents.add(incident);
+    public void addIncident(UshahidiIncident incident) {
+	this.incidents.add(incident);
     } // addIncident
 
 } // UshahidiIncidentList

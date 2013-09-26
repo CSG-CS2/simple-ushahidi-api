@@ -17,41 +17,37 @@
 
 package edu.grinnell.glimmer.ushahidi;
 
-import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 /**
  * Utilities for working with Ushahidi.
- *
- * @version     0.3 of 25 September 2013
- * @author      Daniel Torres
- * @author      Samuel A. Rebelsky
+ * 
+ * @version 0.3 of 25 September 2013
+ * @author Daniel Torres
+ * @author Samuel A. Rebelsky
  */
 public class UshahidiUtils {
 
-    // +-----------+------------------------------------------------------    
+    // +-----------+------------------------------------------------------
     // | Constants |
     // +-----------+
 
     /**
      * A sample Ushahidi location.
      */
-    public static final UshahidiLocation SAMPLE_LOCATION =
-        sampleLocation();
+    public static final UshahidiLocation SAMPLE_LOCATION = sampleLocation();
 
     /**
      * A sample Ushahidi incident.
      */
-    public static final UshahidiIncident SAMPLE_INCIDENT =
-        sampleIncident();
+    public static final UshahidiIncident SAMPLE_INCIDENT = sampleIncident();
 
     /**
      * A list of sample incidents.
      */
-    public UshahidiIncidentList SAMPLE_INCIDENT_LIST =
-        sampleIncidentList();
+    public UshahidiIncidentList SAMPLE_INCIDENT_LIST = sampleIncidentList();
 
-    // +----------------+-------------------------------------------------    
+    // +----------------+-------------------------------------------------
     // | Static Methods |
     // +----------------+
 
@@ -59,72 +55,71 @@ public class UshahidiUtils {
      * Get a random number between 0 and n-1.
      */
     static int random(int n) {
-        return (int) Math.floor(n * Math.random());
+	return (int) Math.floor(n * Math.random());
     } // random(int)
 
     /**
      * Create a "random" location.
      */
     public static UshahidiLocation randomLocation() {
-        UshahidiLocation random = new UshahidiLocation(1000 + random(1000),
-                "Somewhere", random(180) - 90,
-                random(360) - 180);
-        return random;
+	UshahidiLocation random = new UshahidiLocation(1000 + random(1000),
+		"Somewhere", random(180) - 90, random(360) - 180);
+	return random;
     } // randomLocation
 
     /**
      * Create a sample location.
      */
     public static UshahidiLocation sampleLocation() {
-        UshahidiLocation sample = new UshahidiLocation(100, "Grinnell",
-                41.7436, 92.7247);
-        return sample;
+	UshahidiLocation sample = new UshahidiLocation(100, "Grinnell",
+		41.7436, 92.7247);
+	return sample;
     } // sampleLocation
 
     /**
      * Create a "random" incident.
      */
     public static UshahidiIncident randomIncident() {
-        UshahidiIncident random = 
-                new UshahidiIncident(1000 + random(1000), "Something happened");
-        random.mode = (int) random(1);
-        random.date = new GregorianCalendar(2012 + random(5), 
-                1 + random(12), random(30));
-        random.active = random(2);
-        random.verified = random(2);
-        random.location = randomLocation();
-        return random;
+	UshahidiIncident random = new UshahidiIncident(1000 + random(1000),
+		"Something happened");
+	random.mode = (int) random(1);
+	random.date = new GregorianCalendar(2012 + random(5), 1 + random(12),
+		random(30));
+	random.active = random(2);
+	random.verified = random(2);
+	random.location = randomLocation();
+	return random;
     } // randomIncident
 
     /**
      * Create a sample indicent.
      */
     static UshahidiIncident sampleIncident() {
-         UshahidiIncident sample = new UshahidiIncident(1, "Sample Incident");
-         sample.mode = 0;
-         sample.date = new GregorianCalendar(2013, 9, 1);
-         sample.active = 1;
-         sample.verified = 1;
-         sample.location = sampleLocation();
-         return sample;
+	UshahidiIncident sample = new UshahidiIncident(1, "Sample Incident");
+	sample.mode = 0;
+	sample.date = new GregorianCalendar(2013, 9, 1);
+	sample.active = 1;
+	sample.verified = 1;
+	sample.location = sampleLocation();
+	return sample;
     } // sampleIncident
 
     /**
      * Create a list of sample incidents.
      */
     static UshahidiIncidentList sampleIncidentList() {
-         UshahidiIncidentList sample = new UshahidiIncidentList();
-         sample.addIncident(new UshahidiIncident(1, "Incident One", 
-                 new GregorianCalendar(2013, 9, 1), sampleLocation()));
-         sample.addIncident(new UshahidiIncident(18, "Another Incident", 
-                 new GregorianCalendar(2013, 10, 1), sampleLocation()));
-         sample.addIncident(new UshahidiIncident(3, "Incident Three", 
-                 new GregorianCalendar(2013, 8, 1), sampleLocation()));
-         sample.addIncident(new UshahidiIncident(2, "Incident Two", 
-                 new GregorianCalendar(2013, 8, 1), sampleLocation()));
-         sample.addIncident(new UshahidiIncident(11, "Whatever", 
-                 new GregorianCalendar(2013, 6, 1), sampleLocation()));
-         return sample;
+	UshahidiIncidentList sample = new UshahidiIncidentList();
+	sample.addIncident(new UshahidiIncident(1, "Incident One",
+		new GregorianCalendar(2013, 9, 1), sampleLocation()));
+	sample.addIncident(new UshahidiIncident(18, "Another Incident",
+		new GregorianCalendar(2013, 10, 1), sampleLocation()));
+	sample.addIncident(new UshahidiIncident(3, "Incident Three",
+		new GregorianCalendar(2013, 8, 1), sampleLocation()));
+	sample.addIncident(new UshahidiIncident(2, "Incident Two",
+		new GregorianCalendar(2013, 8, 1), sampleLocation()));
+	sample.addIncident(new UshahidiIncident(11, "Whatever",
+		new GregorianCalendar(2013, 6, 1), sampleLocation()));
+	return sample;
     } // sampleIncidentList
 
 } // UshahidiUtils

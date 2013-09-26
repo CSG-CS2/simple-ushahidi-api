@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2013 Samuel A. Rebelsky and Daniel Torres.  All rights
+å * Copyright (c) 2013 Samuel A. Rebelsky and Daniel Torres.  All rights
  * reserved.
  *
  * This program is free software: you can redistribute it and/or modify
@@ -20,14 +20,14 @@ package edu.grinnell.glimmer.ushahidi;
 
 /**
  * A simple representation of locations of Ushahidi incidents.
- *
- * @version     0.3 of 25 September 2013
- * @author      Samuel A. Rebelsky
- * @author      Daniel Torres
+ * 
+ * @version 0.3 of 25 September 2013
+ * @author Samuel A. Rebelsky
+ * @author Daniel Torres
  */
 public class UshahidiLocation {
 
-    // +-----------+------------------------------------------------------    
+    // +-----------+------------------------------------------------------
     // | Constants |
     // +-----------+
 
@@ -45,59 +45,58 @@ public class UshahidiLocation {
      * The constant used to indicate that no longitude has been suplied
      */
     public static final double NO_LONGITUDE = 191919;
-    
-    // +--------+---------------------------------------------------------    
+
+    // +--------+---------------------------------------------------------
     // | Fields |
     // +--------+
 
     /**
-     * Where did the incident occur?  Stored as an integer identifier.
+     * Where did the incident occur? Stored as an integer identifier.
      */
-    int id = INVALID_LOCATION_ID; 
+    int id = INVALID_LOCATION_ID;
 
     /**
      * The name of the location.
      */
-    String name = ""; 
+    String name = "";
 
     /**
      * The lattitude of the location.
      */
-    double latitude = NO_LATITUDE; 
+    double latitude = NO_LATITUDE;
 
     /**
      * The longitude of the location.
      */
-    double longitude = NO_LONGITUDE; 
+    double longitude = NO_LONGITUDE;
 
-    
-    // +--------------+---------------------------------------------------    
+    // +--------------+---------------------------------------------------
     // | Constructors |
     // +--------------+
 
     /**
-     * Create an empty location.  Used mostly for testing. 
+     * Create an empty location. Used mostly for testing.
      */
     public UshahidiLocation() {
     } // UshahidiLocation()
-    
+
     /**
      * Create a location given only id and name.
      */
     public UshahidiLocation(int id, String name) {
-        this.id = id;
-        this.name = name;
+	this.id = id;
+	this.name = name;
     } // UshahidiLocation(int, String)
-    
+
     /**
      * Create a location given all the main components.
      */
-    public UshahidiLocation(int id, String name, double latitude, 
-            double longitude) {
-        this.id = id;
-        this.name = name;
-        this.latitude = latitude;
-        this.longitude = longitude;
+    public UshahidiLocation(int id, String name, double latitude,
+	    double longitude) {
+	this.id = id;
+	this.name = name;
+	this.latitude = latitude;
+	this.longitude = longitude;
     } // UshahidiLocation
 
     // +-------------------------+----------------------------------------
@@ -108,20 +107,16 @@ public class UshahidiLocation {
      * Convert the incident to a string (e.g., for printing).
      */
     public String toString() {
-        return this.toString(", ");
+	return this.toString(", ");
     } // toString()
 
     /**
      * Convert the incident to a string, using sep to separate the items.
      */
-    public String toString(String sep)
-    {
-        return "LOCATION ["
-                + "ID: " + this.id
-                + sep + "Name: " + this.name
-                + sep + "Latitude: " + this.latitude 
-                + sep + "Longitude: " + this.longitude 
-            + "]";
+    public String toString(String sep) {
+	return "LOCATION [" + "ID: " + this.id + sep + "Name: " + this.name
+		+ sep + "Latitude: " + this.latitude + sep + "Longitude: "
+		+ this.longitude + "]";
     } // toString(String)
 
     // +---------+--------------------------------------------------------
@@ -132,28 +127,28 @@ public class UshahidiLocation {
      * Get the id.
      */
     public int getId() {
-        return this.id;
+	return this.id;
     } // getId()
 
     /**
      * Get the name.
      */
     public String getName() {
-        return this.name;
+	return this.name;
     } // getName()
 
     /**
-     * Get the lattitude.
+     * Get the latitude.
      */
     public double getLatitude() {
-        return this.latitude;
+	return this.latitude;
     } // getLatitude()
 
     /**
      * Get the longitude.
      */
     public double getLongitude() {
-        return this.longitude;
+	return this.longitude;
     } // getLongitude()
 
 } // UshahidiLocation

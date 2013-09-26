@@ -18,27 +18,28 @@
 package edu.grinnell.glimmer.ushahidi;
 
 /**
- * A simple representation of Ushahidi administrators.  Administrators,
- * like clients, provide a list of incidents.  For administrators, they
- * are pending incidents (as compared to the approved incidents provided
- * by clients).  Administrators also provide capabilities to approve and
- * delete incidents.
- *
- * @version     0.3 of 25 September 2013
- * @author      Samuel A. Rebelsky
+ * A simple representation of Ushahidi administrators. Administrators, like
+ * clients, provide a list of incidents. For administrators, they are pending
+ * incidents (as compared to the approved incidents provided by clients).
+ * Administrators also provide capabilities to approve and delete incidents.
+ * 
+ * @version 0.3 of 25 September 2013
+ * @author Samuel A. Rebelsky
  */
 public interface UshahidiAdmin extends UshahidiClient {
     /**
      * Approve an incident.
-     *
-     * @throws Exception     if no such incident exists.
+     * 
+     * @throws Exception
+     *             if no such incident exists.
      */
     public String approve(int incidentid) throws Exception;
 
     /**
      * Delete an incident.
-     *
-     * @throws Exception     if no such incident exists.
+     * 
+     * @throws Exception
+     *             if no such incident exists.
      */
     public String delete(int incidentid) throws Exception;
 } // UshahidiAdmin

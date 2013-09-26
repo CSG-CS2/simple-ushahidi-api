@@ -25,27 +25,26 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
- * An Ushahidi client that gets in data from the Web.  The most typical
- * form of Ushahidi client.
- *
- * @version     0.3 of 25 September 2013
- * @author      Samuel A. Rebelsky
- * @author      Daniel Torres
+ * An Ushahidi client that gets in data from the Web. The most typical form of
+ * Ushahidi client.
+ * 
+ * @version 0.3 of 25 September 2013
+ * @author Samuel A. Rebelsky
+ * @author Daniel Torres
  */
 public class UshahidiWebClient implements UshahidiClient {
     // +-------+----------------------------------------------------------
     // | Notes |
     // +-------+
-/*
-    Right now, this code assumes that the server has no more than 
-    DEFAULT_NUM_INCIDENTS incidents.  If the server has more than 
-    DEFAULT_NUM_INCIDENTS incidents, the client is likely to miss 
-    the ones with lower ids.
- */
+    /*
+     * Right now, this code assumes that the server has no more than
+     * DEFAULT_NUM_INCIDENTS incidents. If the server has more than
+     * DEFAULT_NUM_INCIDENTS incidents, the client is likely to miss the ones
+     * with lower ids.
+     */
 
     // +-----------+------------------------------------------------------
     // | Constants |
@@ -66,8 +65,8 @@ public class UshahidiWebClient implements UshahidiClient {
     UshahidiIncidentList incidents = null;
 
     /**
-     * The base URL of the server that we're using (protocol plus
-     * hostname or IP address).
+     * The base URL of the server that we're using (protocol plus hostname or IP
+     * address).
      */
     String server;
 
@@ -88,48 +87,44 @@ public class UshahidiWebClient implements UshahidiClient {
     /**
      * Create a new client that connects to server to obtain data.
      * 
-     * @param server    
-     *   A string that gives the prefix of the URL, including the protocol 
-     *   and the hostname.  For example,
-     *     https://farmersmarket.crowdmap.com/
-     * @exception Exception     
-     *   when we cannot connect to the server.
-     * @pre
-     *   The constructor must be a valid URL for an Ushahidi server.
-     * @post
-     *   The server is available for obtaining values.
+     * @param server
+     *            A string that gives the prefix of the URL, including the
+     *            protocol and the hostname. For example,
+     *            https://farmersmarket.crowdmap.com/
+     * @exception Exception
+     *                when we cannot connect to the server.
+     * @pre The constructor must be a valid URL for an Ushahidi server.
+     * @post The server is available for obtaining values.
      */
     public UshahidiWebClient(String server) throws Exception {
-        this(server, DEFAULT_NUM_INCIDENTS);
+	this(server, DEFAULT_NUM_INCIDENTS);
     } // UshahidiWebClient
 
     /**
-     * Create a new client that connects to server to obtain up to
-     * numIncidents incidents.
+     * Create a new client that connects to server to obtain up to numIncidents
+     * incidents.
      * 
-     * @param server    
-     *   A string that gives the prefix of the URL, including the protocol 
-     *   and the hostname.  For example,
-     *     <code>https://farmersmarket.crowdmap.com/</code>
+     * @param server
+     *            A string that gives the prefix of the URL, including the
+     *            protocol and the hostname. For example,
+     *            <code>https://farmersmarket.crowdmap.com/</code>
      * @param numIncidents
-     *   The number of incidents we grab from the server, more or less.
-     *   Must be a non-negative integer.
-     * @exception Exception     
-     *   when we cannot connect to the server.
-     * @pre
-     *   The constructor must be a valid URL for an Ushahidi server.
-     * @post
-     *   The server is available for obtaining values.
+     *            The number of incidents we grab from the server, more or less.
+     *            Must be a non-negative integer.
+     * @exception Exception
+     *                when we cannot connect to the server.
+     * @pre The constructor must be a valid URL for an Ushahidi server.
+     * @post The server is available for obtaining values.
      */
     public UshahidiWebClient(String server, int numIncidents) throws Exception {
-        // Fill in the fields
-        this.server = server;
-        this.numIncidents = numIncidents;
-        this.maxId = 0;
-        this.incidents = new UshahidiIncidentList();
-        if (this.fetchIncidents () == 0) {
-          throw new Exception("No incidents available.");
-        } // if (this.fetchIndicents() == 0)
+	// Fill in the fields
+	this.server = server;
+	this.numIncidents = numIncidents;
+	this.maxId = 0;
+	this.incidents = new UshahidiIncidentList();
+	if (this.fetchIncidents() == 0) {
+	    throw new Exception("No incidents available.");
+	} // if (this.fetchIndicents() == 0)
     } // UshahidiWebClient
 
     // +---------+--------------------------------------------------------
@@ -138,140 +133,132 @@ public class UshahidiWebClient implements UshahidiClient {
 
     /**
      * Fetch the next set of incidents from the server.
-     *
+     * 
      * @return n, The number of incidents fetched
-     *
+     * 
      * @exception Exception
-     *   If we cannot get incidents from the server, or if any of
-     *   the incidents is malformed.
-     * @pre
-     *   This object has been initialized.
-     * @post
-     *   This object now contains up to numIncidents additional incidents.
-     *   (It will be fewer than numIncidents if the server provides fewer.)
+     *                If we cannot get incidents from the server, or if any of
+     *                the incidents is malformed.
+     * @pre This object has been initialized.
+     * @post This object now contains up to numIncidents additional incidents.
+     *       (It will be fewer than numIncidents if the server provides fewer.)
      */
     public int fetchIncidents() throws Exception {
-        BufferedReader input;   // Textual input from the server
-        String line;            // One line of data from the server
-        String text = "";       // Data read from the server
-        JSONObject data;        // Parsed text from the server
-        String errorNumber;     // The number of the error
-        URL serverURL;          // The full URL for fetching data
+	BufferedReader input; // Textual input from the server
+	String line; // One line of data from the server
+	String text = ""; // Data read from the server
+	JSONObject data; // Parsed text from the server
+	String errorNumber; // The number of the error
+	URL serverURL; // The full URL for fetching data
 
-        // Determine the URL to use.  We use different URLs depending on
-        // whether this is the first time we've tried to fetch incidents
-        // or a subsequent time.
-        if (this.maxId == 0) {
-            serverURL = 
-                new URL(this.server + "/api?task=incidents&by=all&limit=" 
-                        + numIncidents);
-        } else {
-            serverURL =
-                new URL(this.server 
-                        + "/api?task=incidents&by=sinceid"
-                        + "&id=" + this.maxId
-                        + "&limit=" + numIncidents);
-        } 
+	// Determine the URL to use. We use different URLs depending on
+	// whether this is the first time we've tried to fetch incidents
+	// or a subsequent time.
+	if (this.maxId == 0) {
+	    serverURL = new URL(this.server
+		    + "/api?task=incidents&by=all&limit=" + numIncidents);
+	} else {
+	    serverURL = new URL(this.server + "/api?task=incidents&by=sinceid"
+		    + "&id=" + this.maxId + "&limit=" + numIncidents);
+	}
 
-        // Connect to the server
-        HttpURLConnection connection;
-        try {
-            connection = 
-                (HttpURLConnection) serverURL.openConnection();
-            connection.connect();
-        } catch (Exception e) {
-            throw new Exception("Could not connect to " + this.server 
-                               + " because " + e.toString());
-        }
-        
-        // Read the data from the server
-        try {
-            input = 
-                new BufferedReader(
-                    new InputStreamReader(
-                        connection.getInputStream()));
-        } catch (Exception e) {
-            throw new Exception("Could not get Ushahidi data from " 
-                                + this.server);
-        }
+	// Connect to the server
+	HttpURLConnection connection;
+	try {
+	    connection = (HttpURLConnection) serverURL.openConnection();
+	    connection.connect();
+	} catch (Exception e) {
+	    throw new Exception("Could not connect to " + this.server
+		    + " because " + e.toString());
+	}
 
-        while ((line = input.readLine()) != null) {
-            text += line;
-        } // while
+	// Read the data from the server
+	try {
+	    input = new BufferedReader(new InputStreamReader(
+		    connection.getInputStream()));
+	} catch (Exception e) {
+	    throw new Exception("Could not get Ushahidi data from "
+		    + this.server);
+	}
 
-        // Testing: What does the text look like?
-        // System.out.println(text);
+	while ((line = input.readLine()) != null) {
+	    text += line;
+	} // while
 
-        // Grab the JSON text, which starts with an open brace
-        text = text.substring(text.indexOf("{"));
+	// Testing: What does the text look like?
+	// System.out.println(text);
 
-        // Convert the text to a JSONObject
-        data = new JSONObject(text);
+	// Grab the JSON text, which starts with an open brace
+	text = text.substring(text.indexOf("{"));
 
-        // Check to make sure that we succeeded
-        try {
-            JSONObject error = data.getJSONObject("error");
-            if (error.getInt("code") != 0) {
-                System.out.println("Could not get data from server because "
-                                   + error.getInt("message"));
-                return 0;
-            } // if the code indicates that the request was invalid
-        } catch (Exception e) {
-            return 0;
-        } // catch (Exception)
+	// Convert the text to a JSONObject
+	data = new JSONObject(text);
 
-        // Grab all of the elements
-        JSONArray incidents = 
-            data.getJSONObject("payload").getJSONArray("incidents");
-        int len = incidents.length();
-        for (int i = 0; i < len; i++) {
-            UshahidiIncident nextIncident = 
-               new UshahidiIncident((JSONObject) incidents.get(i));
-            this.incidents.addIncident(nextIncident);
-            if (nextIncident.getId() > this.maxId)
-                this.maxId = nextIncident.getId();
-        } // for
-        return len;
+	// Check to make sure that we succeeded
+	try {
+	    JSONObject error = data.getJSONObject("error");
+	    if (error.getInt("code") != 0) {
+		System.out.println("Could not get data from server because "
+			+ error.getInt("message"));
+		return 0;
+	    } // if the code indicates that the request was invalid
+	} catch (Exception e) {
+	    return 0;
+	} // catch (Exception)
+
+	// Grab all of the elements
+	JSONArray incidents = data.getJSONObject("payload").getJSONArray(
+		"incidents");
+	int len = incidents.length();
+	for (int i = 0; i < len; i++) {
+	    UshahidiIncident nextIncident = new UshahidiIncident(
+		    (JSONObject) incidents.get(i));
+	    this.incidents.addIncident(nextIncident);
+	    if (nextIncident.getId() > this.maxId)
+		this.maxId = nextIncident.getId();
+	} // for
+	return len;
     } // fetchIncidents()
-    
+
     // +----------------+-------------------------------------------------
     // | Public Methods |
     // +----------------+
 
     public UshahidiIncident[] getIncidents() {
-        return this.incidents.getIncidents();
+	return this.incidents.getIncidents();
     } // getIncidents()
 
     /**
      * Determine if any unseen incidents remain.
      */
     public boolean hasMoreIncidents() {
-        // If the list has more incidents, we're set.
-        if (this.incidents.hasMoreIncidents())
-            return true;
-        // Otherwise, try to fetch some more incidents.
-        try {
-            return (this.fetchIncidents() > 0);
-        } catch (Exception e) {
-            return false;
-        }
+	// If the list has more incidents, we're set.
+	if (this.incidents.hasMoreIncidents())
+	    return true;
+	// Otherwise, try to fetch some more incidents.
+	try {
+	    return (this.fetchIncidents() > 0);
+	} catch (Exception e) {
+	    return false;
+	}
     } // hasMoreIncidents()
-    
-    /** 
+
+    /**
      * Get the next unseen incident.
-     *
-     * @exception Exception     If no incidents remain.
+     * 
+     * @exception Exception
+     *                If no incidents remain.
      */
     public UshahidiIncident nextIncident() throws Exception {
-        // If there aren't any unvisited incidents left
-        if (!this.incidents.hasMoreIncidents()) {
-            // Try to get some more
-            if (this.fetchIncidents() == 0) {
-                throw new Exception("No incidents remain.");
-            } // if we can't fetch any incidents
-        } // if no incidents rmeain
+	// If there aren't any unvisited incidents left
+	if (!this.incidents.hasMoreIncidents()) {
+	    // Try to get some more
+	    if (this.fetchIncidents() == 0) {
+		throw new Exception("No incidents remain.");
+	    } // if we can't fetch any incidents
+	} // if no incidents rmeain
 
-        return this.incidents.nextIncident();
+	return this.incidents.nextIncident();
     } // nextIncident
 
 } // UshahidiClient
