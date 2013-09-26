@@ -20,18 +20,19 @@ package edu.grinnell.glimmer.ushahidi;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.Calendar;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONArray;
 
 /**
- * A simple representation of Ushahidi incidents.
+ * A simple representation of Ushahidi incidents.  Currently gives access
+ * only to the primary fields.
  *
  * @version     0.3 of 16 September 2013
- * @author      Daniel Torres
  * @author      Samuel A. Rebelsky
+ * @author      Daniel Torres
  */
 public class UshahidiIncident {
 
@@ -79,7 +80,7 @@ public class UshahidiIncident {
      * The date that the incident was reported.  Does not appear to
      * include the time of day.
      */
-    Date date; 
+    Calendar date; 
 
     /**
      * The mode of the incident. (???)
@@ -142,10 +143,24 @@ public class UshahidiIncident {
      * for testing.
      */
     public UshahidiIncident(int id, String title) {
-        this.incidentId = id;
-        this.incidentTitle = title;
+        this.id = id;
+        this.title = title;
     } // UshahidiIncident(int, String)
     
+    /** 
+     * Create an incident with many of the important fields.
+     * The incident is marked as active and verified.
+     */
+    public UshahidiIncident(int id, String title, Calendar date, UshahidiLocation location) {
+        this.id = id;
+        this.title = title;
+        this.date = date;
+        this.location = location;
+        this.mode = 0;
+        this.active = 1;
+        this.verified = 1;
+    } // UshahidiIncident(int, String, Calendar, Location)
+
     /**
      * Create an incident from a partially parsed JSON response.
      *
@@ -164,12 +179,11 @@ public class UshahidiIncident {
         this.id = incident.getInt("incidentid");
         this.title = incident.getString("incidenttitle");
         this.description = incident.getString("incidentdescription");
-        this.date = 
-            dateFormat.parse(incident.getString("incidentdate"));
+        this.date = Calendar.getInstance();
+        this.date.setTime(dateFormat.parse(incident.getString("incidentdate")));
         this.mode = incident.getInt("incidentmode");
         this.active = incident.getInt("incidentactive");
         this.verified = incident.getInt("incidentverified");
-
 
         // Not all incidents have locations, or may have only partial
         // information on the location.  The following sections deal
@@ -194,17 +208,17 @@ public class UshahidiIncident {
         try {
             locationLatitude = incident.getDouble("locationlatitude");
         } catch (Exception e) {
-            locationLatitude = INVALID_LATITUDE;
+            locationLatitude = UshahidiLocation.NO_LATITUDE;
         } // catch (Exception)
         try {
             locationLongitude = incident.getDouble("locationlongitude");
         } catch (Exception e) {
-            locationLongitude = INVALID_LONGITUDE;
+            locationLongitude = UshahidiLocation.NO_LONGITUDE;
         } // catch (Exception)
 
         this.location = 
               new UshahidiLocation(locationId, locationName, locationLatitude,
-                       locaitonLongitude);
+                       locationLongitude);
             
         // Get compound fields.  Right now, we don't reveal this to the client.
         categories = input.getJSONArray("categories");
@@ -243,14 +257,11 @@ public class UshahidiIncident {
     public String toString(String sep)
     {
         return "INCIDENT ["
-            + "Title: " + this.incidentTitle 
-            + sep + "ID: " + this.incidentId 
-            + sep + "Description: " + this.incidentDescription 
-            + sep + "Date: " + this.incidentDate 
-            + sep + "Location ID: " + this.locationId 
-            + sep + "Location Name: " + this.locationName 
-            + sep + "Location Latitude: " + this.locationLatitude 
-            + sep + "Location Longitude: " + this.locationLongitude 
+            + "Title: " + this.title 
+            + sep + "ID: " + this.id 
+            + sep + "Description: " + this.description 
+            + sep + "Date: " + this.date 
+            + sep + "Location: " + this.location
             + "]";
     } // toString(String)
 
@@ -283,7 +294,7 @@ public class UshahidiIncident {
     /**
      * Get the date the incident was reported.
      */
-   public Date getDate() {
+   public Calendar getDate() {
         return this.date;
     } // getDate()
 

@@ -18,15 +18,12 @@
 
 package edu.grinnell.glimmer.ushahidi;
 
-import java.text.ParseException;
-import java.util.Date;
-
 /**
  * A simple representation of locations of Ushahidi incidents.
  *
- * @version     0.2 of 7 August 2013
- * @author      Daniel Torres
+ * @version     0.3 of 25 September 2013
  * @author      Samuel A. Rebelsky
+ * @author      Daniel Torres
  */
 public class UshahidiLocation {
 
@@ -56,7 +53,7 @@ public class UshahidiLocation {
     /**
      * Where did the incident occur?  Stored as an integer identifier.
      */
-    int id = INVALID_LOCATION; 
+    int id = INVALID_LOCATION_ID; 
 
     /**
      * The name of the location.
@@ -95,7 +92,8 @@ public class UshahidiLocation {
     /**
      * Create a location given all the main components.
      */
-    public UshahidiLocation(int id, String name, int latitude, int longitude) {
+    public UshahidiLocation(int id, String name, double latitude, 
+            double longitude) {
         this.id = id;
         this.name = name;
         this.latitude = latitude;
@@ -158,4 +156,4 @@ public class UshahidiLocation {
         return this.longitude;
     } // getLongitude()
 
-} // UshahidiIncident
+} // UshahidiLocation

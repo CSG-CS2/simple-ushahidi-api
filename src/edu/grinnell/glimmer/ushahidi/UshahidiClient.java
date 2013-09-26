@@ -22,7 +22,7 @@ package edu.grinnell.glimmer.ushahidi;
  * iterator style (but without using Iterators, so that novices can
  * use it) and as an array.
  *
- * @version     0.2 of 7 August 2013
+ * @version     0.3 of 25 September 2013
  * @author      Samuel A. Rebelsky
  */
 public interface UshahidiClient {
@@ -39,7 +39,7 @@ public interface UshahidiClient {
     /** 
      * Get the next unseen incident.
      *
-     * @exception Exception     If no incidents remain.
+     * @throws Exception     If no incidents remain.
      */
     public UshahidiIncident nextIncident() throws Exception;
 

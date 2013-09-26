@@ -32,7 +32,7 @@ import org.json.JSONObject;
  * An Ushahidi client that gets in data from the Web.  The most typical
  * form of Ushahidi client.
  *
- * @version     0.2 of 7 August 2013
+ * @version     0.3 of 25 September 2013
  * @author      Samuel A. Rebelsky
  * @author      Daniel Torres
  */
@@ -228,8 +228,8 @@ public class UshahidiWebClient implements UshahidiClient {
             UshahidiIncident nextIncident = 
                new UshahidiIncident((JSONObject) incidents.get(i));
             this.incidents.addIncident(nextIncident);
-            if (nextIncident.getIncidentId() > this.maxId)
-                this.maxId = nextIncident.getIncidentId();
+            if (nextIncident.getId() > this.maxId)
+                this.maxId = nextIncident.getId();
         } // for
         return len;
     } // fetchIncidents()

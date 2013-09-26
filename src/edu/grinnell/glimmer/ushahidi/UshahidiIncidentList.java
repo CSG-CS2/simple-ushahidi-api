@@ -25,7 +25,7 @@ import java.util.Collection;
  * that used for UshahidiClient.  Used in a variety of classes that
  * implement UshahidiClient.
  *
- * @version     0.2 of 7 August 2013
+ * @version     0.3 of 25 September 2013
  * @author      Samuel A. Rebelsky
  */
 public class UshahidiIncidentList implements UshahidiClient {

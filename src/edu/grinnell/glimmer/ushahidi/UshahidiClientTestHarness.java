@@ -25,7 +25,7 @@ import java.util.Collection;
  * Lets you set up a simulated set of incidents and treat it as you
  * would an UshahidiWebClient.
  *
- * @version     0.2 of 7 August 2013
+ * @version     0.3 of 25 September 2013
  * @author      Samuel A. Rebelsky
  */
 public class UshahidiClientTestHarness extends UshahidiIncidentList {

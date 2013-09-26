@@ -24,22 +24,22 @@ package edu.grinnell.glimmer.ushahidi;
  * by clients).  Administrators also provide capabilities to approve and
  * delete incidents.
  *
- * @version     0.2 of 7 August 2013
+ * @version     0.3 of 25 September 2013
  * @author      Samuel A. Rebelsky
  */
 public interface UshahidiAdmin extends UshahidiClient {
     /**
      * Approve an incident.
      *
-     * @exception Exception     if no such incident exists.
+     * @throws Exception     if no such incident exists.
      */
-    public String approve(int incidentid);
+    public String approve(int incidentid) throws Exception;
 
     /**
      * Delete an incident.
      *
-     * @exception Exception     if no such incident exists.
+     * @throws Exception     if no such incident exists.
      */
-    public String delete(int incidentid);
+    public String delete(int incidentid) throws Exception;
 } // UshahidiAdmin
 
