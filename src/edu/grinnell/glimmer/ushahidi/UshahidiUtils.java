@@ -45,7 +45,7 @@ public class UshahidiUtils {
     /**
      * A list of sample incidents.
      */
-    public UshahidiIncidentList SAMPLE_INCIDENT_LIST = sampleIncidentList();
+    public static final UshahidiClient SAMPLE_CLIENT = sampleIncidentList();
 
     // +----------------+-------------------------------------------------
     // | Static Methods |
@@ -70,7 +70,7 @@ public class UshahidiUtils {
     /**
      * Create a sample location.
      */
-    public static UshahidiLocation sampleLocation() {
+    static UshahidiLocation sampleLocation() {
 	UshahidiLocation sample = new UshahidiLocation(100, "Grinnell",
 		41.7436, 92.7247);
 	return sample;
@@ -88,6 +88,7 @@ public class UshahidiUtils {
 	random.active = random(2);
 	random.verified = random(2);
 	random.location = randomLocation();
+	random.description = "Wasn't that interesting?";
 	return random;
     } // randomIncident
 
@@ -101,6 +102,7 @@ public class UshahidiUtils {
 	sample.active = 1;
 	sample.verified = 1;
 	sample.location = sampleLocation();
+	sample.description = "This is a test.  This is just a test.";
 	return sample;
     } // sampleIncident
 
@@ -110,15 +112,20 @@ public class UshahidiUtils {
     static UshahidiIncidentList sampleIncidentList() {
 	UshahidiIncidentList sample = new UshahidiIncidentList();
 	sample.addIncident(new UshahidiIncident(1, "Incident One",
-		new GregorianCalendar(2013, 9, 1), sampleLocation()));
+		new GregorianCalendar(2013, 9, 1), sampleLocation(),
+		"an incident of some sort"));
 	sample.addIncident(new UshahidiIncident(18, "Another Incident",
-		new GregorianCalendar(2013, 10, 1), sampleLocation()));
+		new GregorianCalendar(2013, 10, 1), sampleLocation(),
+		"another incident of some sort"));
 	sample.addIncident(new UshahidiIncident(3, "Incident Three",
-		new GregorianCalendar(2013, 8, 1), sampleLocation()));
+		new GregorianCalendar(2013, 8, 1), sampleLocation(),
+		"I'm not sure what this represents."));
 	sample.addIncident(new UshahidiIncident(2, "Incident Two",
-		new GregorianCalendar(2013, 8, 1), sampleLocation()));
+		new GregorianCalendar(2013, 8, 1), sampleLocation(),
+		""));
 	sample.addIncident(new UshahidiIncident(11, "Whatever",
-		new GregorianCalendar(2013, 6, 1), sampleLocation()));
+		new GregorianCalendar(2013, 6, 1), sampleLocation(),
+		"Potentially the last incident we log"));
 	return sample;
     } // sampleIncidentList
 
