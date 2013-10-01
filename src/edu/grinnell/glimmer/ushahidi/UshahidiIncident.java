@@ -151,7 +151,7 @@ public class UshahidiIncident {
      * marked as active and verified.
      */
     public UshahidiIncident(int id, String title, Calendar date,
-	    UshahidiLocation location) {
+	    UshahidiLocation location, String description) {
 	this.id = id;
 	this.title = title;
 	this.date = date;
@@ -159,6 +159,7 @@ public class UshahidiIncident {
 	this.mode = 0;
 	this.active = 1;
 	this.verified = 1;
+	this.description = description;
     } // UshahidiIncident(int, String, Calendar, Location)
 
     /**
