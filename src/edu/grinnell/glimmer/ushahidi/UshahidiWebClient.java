@@ -15,7 +15,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package edu.grinnell.glimmer.ushahidi;
 
 import java.io.BufferedReader;
@@ -144,6 +143,7 @@ public class UshahidiWebClient implements UshahidiClient {
      *       (It will be fewer than numIncidents if the server provides fewer.)
      */
     public int fetchIncidents() throws Exception {
+    String finalURL;
 	BufferedReader input; // Textual input from the server
 	String line; // One line of data from the server
 	String text = ""; // Data read from the server
@@ -157,39 +157,16 @@ public class UshahidiWebClient implements UshahidiClient {
 	if (this.maxId == 0) {
 	    serverURL = new URL(this.server
 		    + "/api?task=incidents&by=all&limit=" + numIncidents);
+	    finalURL = this.server + "/api?task=incidents&by=all&limit=" + numIncidents;
 	} else {
 	    serverURL = new URL(this.server + "/api?task=incidents&by=sinceid"
 		    + "&id=" + this.maxId + "&limit=" + numIncidents);
+	    finalURL = this.server + "/api?task=incidents&by=sinceid"
+		    + "&id=" + this.maxId + "&limit=" + numIncidents;
 	}
 
-	// Connect to the server
-	HttpURLConnection connection;
-	try {
-	    connection = (HttpURLConnection) serverURL.openConnection();
-	    connection.connect();
-	} catch (Exception e) {
-	    throw new Exception("Could not connect to " + this.server
-		    + " because " + e.toString());
-	}
-
-	// Read the data from the server
-	try {
-	    input = new BufferedReader(new InputStreamReader(
-		    connection.getInputStream()));
-	} catch (Exception e) {
-	    throw new Exception("Could not get Ushahidi data from "
-		    + this.server);
-	}
-
-	while ((line = input.readLine()) != null) {
-	    text += line;
-	} // while
-
-	// Testing: What does the text look like?
-	// System.out.println(text);
-
-	// Grab the JSON text, which starts with an open brace
-	text = text.substring(text.indexOf("{"));
+	//Get JSON text from an asyncronous call to the sercver
+	text = new UshahidiRequestTask().execute(finalURL).get();
 
 	// Convert the text to a JSONObject
 	data = new JSONObject(text);
