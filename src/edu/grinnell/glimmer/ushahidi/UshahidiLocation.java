@@ -1,5 +1,5 @@
 /**
-å * Copyright (c) 2013-14 Samuel A. Rebelsky and Daniel Torres.  All rights
+ * Copyright (c) 2013-14 Samuel A. Rebelsky and Daniel Torres.  All rights
  * reserved.
  *
  * This program is free software: you can redistribute it and/or modify
@@ -21,7 +21,7 @@ package edu.grinnell.glimmer.ushahidi;
 /**
  * A simple representation of locations of Ushahidi incidents.
  * 
- * @version 0.4 of 23 August 2014
+ * @version 0.4 of 24 August 2014
  * @author Samuel A. Rebelsky
  * @author Daniel Torres
  */
@@ -107,7 +107,7 @@ public class UshahidiLocation
   // +-------------------------+
 
   /**
-   * Convert the incident to a string (e.g., for printing).
+   * Convert the location to a string (e.g., for printing).
    */
   public String toString()
   {
@@ -115,7 +115,7 @@ public class UshahidiLocation
   } // toString()
 
   /**
-   * Convert the incident to a string, using sep to separate the items.
+   * Convert the location to a string, using sep to separate the items.
    */
   public String toString(String sep)
   {
