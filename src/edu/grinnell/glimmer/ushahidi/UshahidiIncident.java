@@ -21,6 +21,7 @@ package edu.grinnell.glimmer.ushahidi;
 import java.text.ParseException;
 import java.time.format.DateTimeFormatter;
 import java.time.LocalDateTime;
+import java.util.Arrays;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -112,7 +113,7 @@ public class UshahidiIncident
   /**
    * The array of category IDs (or more?).
    */
-  JSONArray categories = null;
+  UshahidiCategory[] categories = null;
 
   /**
    * The array of media.
@@ -243,10 +244,34 @@ public class UshahidiIncident
         new UshahidiLocation(locationId, locationName, locationLatitude,
                              locationLongitude);
 
-    // Get compound fields. Right now, we don't reveal this to the client.
-    categories = input.getJSONArray("categories");
-    media = input.getJSONArray("media");
-    comments = input.getJSONArray("comments");
+    // Get the categories.
+    JSONArray categories = input.getJSONArray("categories");
+    int len = categories.length();
+    this.categories = new UshahidiCategory[len];
+    for (int i = 0; i < len; i++)
+      {
+        JSONObject category = 
+            categories.getJSONObject(i).getJSONObject("category");
+        try 
+          {
+            this.categories[i] = new UshahidiCategory(category.getInt("id"),
+                category.getString("title"));
+          } // try
+        catch (Exception e)
+          {
+          } // catch
+      } // for
+
+    // Get the comments.
+    //   STUB! 
+    //   Note: It looks like with the 2.7.4 server we don't get the
+    //   comments directly.  Instead, we need to send a query of the form
+    //   task=comments&by=reportid&id=###.  
+    this.comments = null;
+
+    // Get other compound fields. Right now, we don't reveal these to 
+    // the client.
+    this.media = input.getJSONArray("media");
 
     // Get the error messages
     try
@@ -307,7 +332,8 @@ public class UshahidiIncident
   {
     return "INCIDENT [" + "Title: " + this.title + sep + "ID: " + this.id + sep
            + "Description: " + this.description + sep + "Date: "
-           + formatDate(this.date) + sep + "Location: " + this.location + "]";
+           + formatDate(this.date) + sep + "Location: " + this.location 
+           + sep + "Categories: " + Arrays.toString(this.categories) + "]";
   } // toString(String)
 
   // +---------+--------------------------------------------------------
