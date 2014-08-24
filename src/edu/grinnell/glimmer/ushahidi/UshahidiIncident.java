@@ -379,4 +379,5 @@ public class UshahidiIncident
   {
     return this.location;
   } // getLocation
+
 } // UshahidiIncident
