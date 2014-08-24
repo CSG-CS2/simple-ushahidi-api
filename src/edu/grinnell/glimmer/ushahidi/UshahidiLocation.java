@@ -62,7 +62,7 @@ public class UshahidiLocation
   String name = "";
 
   /**
-   * The lattitude of the location.
+   * The latitude of the location.
    */
   double latitude = NO_LATITUDE;
 
