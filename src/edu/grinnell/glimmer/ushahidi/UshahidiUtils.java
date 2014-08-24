@@ -17,6 +17,11 @@
 
 package edu.grinnell.glimmer.ushahidi;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+
 import java.time.LocalDateTime;
 
 /**
@@ -28,9 +33,14 @@ import java.time.LocalDateTime;
  */
 public class UshahidiUtils
 {
-  // +-----------+------------------------------------------------------
+  // +-----------+-------------------------------------------------------
   // | Constants |
   // +-----------+
+
+  /**
+   * The default buffer size (e.g., for reading data)
+   */
+  static final int DEFAULT_BUFFER_SIZE = 1024;
 
   /**
    * The smallest date in the range of random dates.
@@ -59,10 +69,9 @@ public class UshahidiUtils
    */
   public static final UshahidiClient SAMPLE_CLIENT = sampleIncidentList();
 
-  // +----------------+-------------------------------------------------
-  // | Static Methods |
-  // +----------------+
-
+  // +-----------------------+-------------------------------------------
+  // | Static Random Methods |
+  // +-----------------------+
   /**
    * Get a random number between 0 and n-1.
    */
@@ -97,6 +106,10 @@ public class UshahidiUtils
                              random(180) - 90, random(360) - 180);
     return random;
   } // randomLocation()
+
+  // +--------------------------------+----------------------------------
+  // | Static Data Generation Methods |
+  // +--------------------------------+
 
   /**
    * Create a sample location.
@@ -166,5 +179,68 @@ public class UshahidiUtils
                                             "Potentially the last incident we log"));
     return sample;
   } // sampleIncidentList
+
+  // +---------------+---------------------------------------------------
+  // | I/O Utilities |
+  // +---------------+
+
+  /**
+   * Read all of the data from a source using a specified buffer size.
+   *
+   * @throws IOException
+   *    If an I/O error occurs.
+   *
+   * Based on code by Paul de Vrieze and found at
+   *   http://stackoverflow.com/questions/309424/read-convert-an-inputstream-to-a-string
+   */
+  public static String readAll(Reader source, final int bufsize)
+    throws IOException
+  {
+    final char[] buf = new char[bufsize];
+    final StringBuilder result = new StringBuilder();
+    int size;
+
+    while ((size = source.read(buf, 0, bufsize)) >= 0)
+      {
+        result.append(buf, 0, size);
+      } // while
+
+    return result.toString();
+  } // readAll(Reader, int)
+
+  /**
+   * Read all of the data from a source.
+   */
+  public static String readAll(Reader source)
+    throws IOException
+  {
+    return readAll(source, DEFAULT_BUFFER_SIZE);
+  } // readAll(Reader)
+
+  /**
+   * Read all of the data from a source, using a particular encoding.
+   */
+  public static String readAll(InputStream source, String encoding)
+    throws IOException
+  {
+    InputStreamReader reader = new InputStreamReader(source, encoding);
+    String result = readAll(reader);
+    reader.close();
+    return result;
+  } // readAll(InputStream,String)
+
+  /**
+   * Read all of the data from a source, using the default (UTF-8)
+   * encoding.
+   */
+  public static String readAll(InputStream source)
+    throws IOException
+  {
+    return readAll(source, "UTF-8");
+  } // readAll(InputStream)
+
+  // +----------------------+--------------------------------------------
+  // | Additional Utilities |
+  // +----------------------+
 
 } // UshahidiUtils
