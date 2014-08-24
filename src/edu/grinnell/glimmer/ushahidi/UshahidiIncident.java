@@ -123,7 +123,7 @@ public class UshahidiIncident
   /**
    * Additional comments about the incident.
    */
-  JSONArray comments = null;
+  UshahidiComment[] comments = null;
 
   /**
    * Any errors involving this incident.
