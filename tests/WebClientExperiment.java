@@ -1,6 +1,5 @@
 /**
- * Copyright (c) 2013 Samuel A. Rebelsky.  All rights
- * reserved.
+ * Copyright (c) 2013-14 Samuel A. Rebelsky.  All rights reserved.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the Lesser GNU General Public License as published 
@@ -22,16 +21,19 @@ import edu.grinnell.glimmer.ushahidi.UshahidiWebClient;
  * A simple test of Ushahidi Web clients.  Takes the server from the
  * command line, connects, and prints out all of the incidents.
  *
- * @version     0.2 of 7 August 2013
+ * @version     0.3 of 23 August 2014
  * @author      Samuel A. Rebelsky
  */
-public class WebClientExperiment {
-    /**
-     * Connect to the server given on the command line.
-     */
-    public static void main(String[] args) throws Exception {
-        UshahidiWebClient client = new UshahidiWebClient(args[0],3);
-        UshahidiClientUtils.printIncidents(client);
-    } // main(String[])
+public class WebClientExperiment
+{
+  /**
+   * Connect to the server given on the command line.
+   */
+  public static void main(String[] args)
+    throws Exception
+  {
+    UshahidiWebClient client = new UshahidiWebClient(args[0], 3);
+    UshahidiClientUtils.printIncidents(client);
+  } // main(String[])
 } // WebClientExperiment
 

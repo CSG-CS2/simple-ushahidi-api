@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2013 Samuel A. Rebelsky.  All rights reserved.
+ * Copyright (c) 2013-14 Samuel A. Rebelsky.  All rights reserved.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the Lesser GNU General Public License as published 
@@ -18,32 +18,63 @@
 import java.io.PrintWriter;
 
 import edu.grinnell.glimmer.ushahidi.UshahidiClient;
+import edu.grinnell.glimmer.ushahidi.UshahidiIncident;
 
 /**
  * An infrastructure for simple experiments with Ushahidi clients.  
  *
- * @version     0.2 of 7 August 2013
+ * @version     0.3 of 23 August 2014
  * @author      Samuel A. Rebelsky
  */
-public class UshahidiClientUtils {
-     /**
-      * Print all of the incidents from an UshahidiClient to a
-      * given destination.
-      */
-     public static void printIncidents(UshahidiClient client, PrintWriter out)
-             throws Exception {
-         while (client.hasMoreIncidents()) {
-             out.println(client.nextIncident().toString());
-             out.flush();
-         } // while
-     } // printIncidents(UshahidiClient, PrintWriter)
+public class UshahidiClientUtils
+{
+  /**
+   * Print all of the incidents from an UshahidiClient to a
+   * given destination.
+   */
+  public static void printIncidents(UshahidiClient client, PrintWriter out)
+    throws Exception
+  {
+    while (client.hasMoreIncidents())
+      {
+        out.println(client.nextIncident().toString());
+        out.flush();
+      } // while
+  } // printIncidents(UshahidiClient, PrintWriter)
 
-     /**
-      * Print all of the incidents from an UshahidiClient to standard
-      * output.
-      */
-    public static void printIncidents(UshahidiClient client) throws Exception {
-        printIncidents(client, new PrintWriter(System.out));
-    } // printIncidents
+  /**
+   * Print all of the incidents from an UshahidiClient to standard
+   * output.
+   */
+  public static void printIncidents(UshahidiClient client)
+    throws Exception
+  {
+    printIncidents(client, new PrintWriter(System.out));
+  } // printIncidents
+
+  /**
+   * Print the array of incidents from an UshahidiClient to a
+   * specified location.
+   */
+  public static void printIncidentArray(UshahidiClient client, 
+      PrintWriter out) 
+    throws Exception
+  {
+    UshahidiIncident incidents[] = client.getIncidents();
+    for (int i = 0; i < incidents.length; i++)
+      {
+        out.println(incidents[i]);
+      } // for
+  } // printIncidentArray
+
+  /**
+   * Print the array of incidents from an UshahidiClient to
+   * standard output.
+   */
+  public static void printIncidentArray(UshahidiClient client)
+    throws Exception
+  {
+    printIncidentArray(client, new PrintWriter(System.out, true));
+  } // printIncidentArray(UshahidiClient)
 } // UshahidiClientUtils
 
