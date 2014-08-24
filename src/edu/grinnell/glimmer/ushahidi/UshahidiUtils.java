@@ -117,7 +117,7 @@ public class UshahidiUtils
   static UshahidiLocation sampleLocation()
   {
     UshahidiLocation sample =
-        new UshahidiLocation(100, "Grinnell", 41.7436, 92.7247);
+        new UshahidiLocation(100, "Grinnell", 41.7436, -92.7247);
     return sample;
   } // sampleLocation
 
