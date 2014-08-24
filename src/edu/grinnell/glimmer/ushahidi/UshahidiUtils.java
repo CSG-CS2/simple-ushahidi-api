@@ -45,14 +45,14 @@ public class UshahidiUtils
   /**
    * The smallest date in the range of random dates.
    */
-  static final LocalDateTime EARLIEST_DATE = LocalDateTime.of(2012,1,1,0,0);
+  static final LocalDateTime EARLIEST_DATE = LocalDateTime.of(2012, 1, 1, 0, 0);
 
   /**
    * The number of seconds between the earliest date and now, used for
    * generating random dates.
    */
-  static final long DATE_RANGE_IN_SECONDS = 
-      1 + LocalDateTime.now().getSecond() - EARLIEST_DATE.getSecond();
+  static final long DATE_RANGE_IN_SECONDS = 1 + LocalDateTime.now().getSecond()
+                                            - EARLIEST_DATE.getSecond();
 
   /**
    * A sample Ushahidi location.
@@ -149,6 +149,10 @@ public class UshahidiUtils
     sample.verified = 1;
     sample.location = sampleLocation();
     sample.description = "This is a test.  This is just a test.";
+    sample.categories =
+        new UshahidiCategory[] { new UshahidiCategory(1),
+                                new UshahidiCategory(2) };
+
     return sample;
   } // sampleIncident
 
@@ -158,25 +162,37 @@ public class UshahidiUtils
   static UshahidiIncidentList sampleIncidentList()
   {
     UshahidiIncidentList sample = new UshahidiIncidentList();
+    UshahidiCategory[] categories =
+        new UshahidiCategory[] { new UshahidiCategory(1) };
     sample.addIncident(new UshahidiIncident(1, "Incident One",
                                             LocalDateTime.of(2013, 9, 1, 1, 0),
                                             sampleLocation(),
-                                            "an incident of some sort"));
-    sample.addIncident(new UshahidiIncident(18, "Another Incident",
+                                            "an incident of some sort",
+                                            categories));
+    sample.addIncident(new UshahidiIncident(
+                                            18,
+                                            "Another Incident",
                                             LocalDateTime.of(2013, 10, 1, 1, 0),
                                             sampleLocation(),
-                                            "another incident of some sort"));
-    sample.addIncident(new UshahidiIncident(3, "Incident Three",
+                                            "another incident of some sort",
+                                            categories));
+    sample.addIncident(new UshahidiIncident(
+                                            3,
+                                            "Incident Three",
                                             LocalDateTime.of(2013, 8, 1, 1, 0),
                                             sampleLocation(),
-                                            "I'm not sure what this represents."));
+                                            "I'm not sure what this represents.",
+                                            categories));
     sample.addIncident(new UshahidiIncident(2, "Incident Two",
                                             LocalDateTime.of(2013, 8, 1, 1, 0),
-                                            sampleLocation(), ""));
-    sample.addIncident(new UshahidiIncident(11, "Whatever",
+                                            sampleLocation(), "", categories));
+    sample.addIncident(new UshahidiIncident(
+                                            11,
+                                            "Whatever",
                                             LocalDateTime.of(2013, 6, 1, 1, 0),
                                             sampleLocation(),
-                                            "Potentially the last incident we log"));
+                                            "Potentially the last incident we log",
+                                            categories));
     return sample;
   } // sampleIncidentList
 
