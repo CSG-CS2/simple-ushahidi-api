@@ -35,3 +35,8 @@ global-array: WebClientArrayExperiment.class
 	java -cp ".:../simple-ushahidi-api.jar:../json.jar" \
 		WebClientArrayExperiment http://ushahidi1.grinnell.edu/global
 
+.PHONY: report
+report: WebReporterExperiment.class
+	java -cp ".:../simple-ushahidi-api.jar:../json.jar" \
+                WebReporterExperiment
+	
