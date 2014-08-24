@@ -199,20 +199,12 @@ seen.
     // Read the data from the server
     try
       {
-        input =
-            new BufferedReader(
-                               new InputStreamReader(
-                                                     connection.getInputStream()));
+        text = UshahidiUtils.readAll(connection.getInputStream());
       } // try
     catch (Exception e)
       {
         throw new Exception("Could not get Ushahidi data from " + this.server);
       } // catch
-
-    while ((line = input.readLine()) != null)
-      {
-        text += line;
-      } // while
 
     // Experiment: What does the text look like?
     // System.out.println(text);
@@ -223,7 +215,8 @@ seen.
     // Convert the text to a JSONObject
     data = new JSONObject(text);
 
-    // Check to make sure that we succeeded
+    // Check for error codes in the result.  The error code is 0 if we
+    // have data, and something else if we don't.
     JSONObject error;
     try
       {
