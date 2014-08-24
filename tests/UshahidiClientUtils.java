@@ -37,7 +37,21 @@ public class UshahidiClientUtils
   {
     while (client.hasMoreIncidents())
       {
-        out.println(client.nextIncident().toString());
+        UshahidiIncident incident = client.nextIncident();
+        out.println(incident.toString());
+        String[] fields = incident.getCustomFieldNames();
+        for (int i = 0; i < fields.length; i++)
+          {
+            try 
+              {
+                out.println("  " + fields[i] + ": " + 
+                    incident.getCustomField(fields[i]));
+              } // try
+            catch (Exception e)
+              {
+                out.println("  Difficulty finding custom field " + fields[i]);
+              } // catch
+          } // for
         out.flush();
       } // while
   } // printIncidents(UshahidiClient, PrintWriter)

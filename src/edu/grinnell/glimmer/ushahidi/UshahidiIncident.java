@@ -133,7 +133,7 @@ public class UshahidiIncident
   /**
    * Any additional fields provided by this Ushahidi installation.
    */
-  JSONArray customFields = null;
+  JSONObject customFields = null;
 
   // +--------------+---------------------------------------------------
   // | Constructors |
@@ -288,8 +288,8 @@ public class UshahidiIncident
     // Get the array of custom fields
     try
       {
-        customFields = input.getJSONArray("customfields");
-      } // try{customFields = input.getJSONArray("customfields")}
+        customFields = input.getJSONObject("customfields");
+      } // try
     catch (JSONException e)
       {
         customFields = null;
@@ -407,5 +407,58 @@ public class UshahidiIncident
   {
     return this.location;
   } // getLocation
+
+  /**
+   * Get the names of all the custom fields.
+   */
+  public String[] getCustomFieldNames()
+  {
+    // Sanity check
+    if (this.customFields == null)
+      {
+        return new String[0];
+      } // if (this.customFields == null)
+
+    // The customFields JSON is an object indexed by auto-generated
+    // keys.  Grab the field_name from each one.
+    String[] names = JSONObject.getNames(this.customFields);
+    String[] fieldnames = new String[names.length];
+    for (int i = 0; i < names.length; i++)
+      {
+        JSONObject obj = this.customFields.getJSONObject(names[i]);
+        fieldnames[i] = obj.getString("field_name");
+       } // for
+     return fieldnames;
+  } // getCustomFieldNames()
+
+  /**
+   * Get a custom field with a particular name.
+   */
+  public Object getCustomField(String name)
+    throws Exception
+  {
+    // Sanity check
+    if (this.customFields == null)
+      {
+        throw new Exception("No custom fields available");
+      } // if (this.customFields == null)
+
+    // The customFields JSON is an object indexed by auto-generated
+    // keys.  Search for the entry that contains our desired field.
+    String[] names = JSONObject.getNames(this.customFields);
+    for (int i = 0; i < names.length; i++)
+      {
+        JSONObject obj = this.customFields.getJSONObject(names[i]);
+        String fieldname = obj.getString("field_name");
+        if (name.equalsIgnoreCase(fieldname))
+          {
+            return obj.get("field_response");
+          } // if (name.equals(fieldname)
+      } // for
+
+    // At this point, we can be pretty sure that the field does not
+    // exist.
+    throw new Exception("No such custom field: " + name);
+  } // getCustomField
 
 } // UshahidiIncident
