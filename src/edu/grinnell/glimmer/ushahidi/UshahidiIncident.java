@@ -161,7 +161,8 @@ public class UshahidiIncident
    * marked as active and verified.
    */
   public UshahidiIncident(int id, String title, LocalDateTime date,
-                          UshahidiLocation location, String description)
+                          UshahidiLocation location, String description,
+                          UshahidiCategory[] categories)
   {
     this.id = id;
     this.title = title;
@@ -171,7 +172,8 @@ public class UshahidiIncident
     this.active = 1;
     this.verified = 1;
     this.description = description;
-  } // UshahidiIncident(int, String, LocalDateTime , Location)
+    this.categories = categories;
+  } // UshahidiIncident(...)
 
   /**
    * Create an incident from a partially parsed JSON response.
