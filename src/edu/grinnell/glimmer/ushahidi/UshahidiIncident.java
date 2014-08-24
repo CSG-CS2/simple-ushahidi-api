@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2013 Samuel A. Rebelsky and Daniel Torres.  All rights
+ * Copyright (c) 2013-14 Samuel A. Rebelsky and Daniel Torres.  All rights
  * reserved.
  *
  * This program is free software: you can redistribute it and/or modify
@@ -19,8 +19,8 @@
 package edu.grinnell.glimmer.ushahidi;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
+import java.time.format.DateTimeFormatter;
+import java.time.LocalDateTime;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -30,309 +30,353 @@ import org.json.JSONArray;
  * A simple representation of Ushahidi incidents. Currently gives access only to
  * the primary fields.
  * 
- * @version 0.3 of 16 September 2013
+ * @version 0.4 of 23 August 2014
  * @author Samuel A. Rebelsky
  * @author Daniel Torres
  */
-public class UshahidiIncident {
+public class UshahidiIncident
+{
 
-    // +-----------+------------------------------------------------------
-    // | Constants |
-    // +-----------+
+  // +-----------+------------------------------------------------------
+  // | Constants |
+  // +-----------+
 
-    /**
-     * The constant used to indicate an invalid location.
-     */
-    public static final int INVALID_INCIDENT_ID = 0;
+  /**
+   * The constant used to indicate an invalid location.
+   */
+  public static final int INVALID_INCIDENT_ID = 0;
 
-    /**
-     * The format in which Ushahidi seems to report dates. (Really?)
-     */
-    static final SimpleDateFormat dateFormat = new SimpleDateFormat(
-	    "dd-MM-yy hh:mm:ss");
+  /**
+   * The format in which Ushahidi seems to report dates. 
+   */
+  static final DateTimeFormatter dateInputFormat =
+      DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
-    // +--------+---------------------------------------------------------
-    // | Fields |
-    // +--------+
+  /**
+   * The format in which we want to report dates.
+   */
+  static final DateTimeFormatter dateOutputFormat = 
+      DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
-    /*
-     * Required fields. Taken from
-     * https://wiki.ushahidi.com/display/WIKI/Ushahidi+Public+API
-     */
+  // +--------+---------------------------------------------------------
+  // | Fields |
+  // +--------+
 
-    /**
-     * The identification number that corresponds to this incident. Set to -1 to
-     * indicate "not yet initialized.
-     */
-    int id = -1;
+  /*
+   * Required fields. Taken from
+   * https://wiki.ushahidi.com/display/WIKI/Ushahidi+Public+API
+   */
 
-    /**
-     * The title of the incident. Set to "" by default.
-     */
-    String title = "";
+  /**
+   * The identification number that corresponds to this incident. Set to -1 to
+   * indicate "not yet initialized.
+   */
+  int id = -1;
 
-    /**
-     * A description of the incident. Set to "" by default.
-     */
-    String description = "";
+  /**
+   * The title of the incident. Set to "" by default.
+   */
+  String title = "";
 
-    /**
-     * The date that the incident was reported. Does not appear to include the
-     * time of day.
-     */
-    Calendar date;
+  /**
+   * A description of the incident. Set to "" by default.
+   */
+  String description = "";
 
-    /**
-     * The mode of the incident. (???)
-     */
-    int mode;
+  /**
+   * The date that the incident was reported. Does not appear to include the
+   * time of day.
+   */
+  LocalDateTime date;
 
-    /**
-     * Is the incident active?
-     */
-    int active = 0;
+  /**
+   * The mode of the incident. (???)
+   */
+  int mode;
 
-    /**
-     * Is the incident verified?
-     */
-    int verified = 0;
+  /**
+   * Is the incident active?
+   */
+  int active = 0;
 
-    /**
-     * Where did the incident occur? Uses null for an unknown location.
-     */
-    UshahidiLocation location = null;
+  /**
+   * Is the incident verified?
+   */
+  int verified = 0;
 
-    /**
-     * The array of category IDs (or more?).
-     */
-    JSONArray categories = null;
+  /**
+   * Where did the incident occur? Uses null for an unknown location.
+   */
+  UshahidiLocation location = null;
 
-    /**
-     * The array of media.
-     */
-    JSONArray media = null;
+  /**
+   * The array of category IDs (or more?).
+   */
+  JSONArray categories = null;
 
-    /**
-     * Additional comments about the incident.
-     */
-    JSONArray comments = null;
+  /**
+   * The array of media.
+   */
+  JSONArray media = null;
 
-    /**
-     * Any errors involving this incident.
-     */
-    JSONArray error = null; // Is there an error involving this incident.
+  /**
+   * Additional comments about the incident.
+   */
+  JSONArray comments = null;
 
-    /**
-     * Any additional fields provided by this Ushahidi installation.
-     */
-    JSONArray customFields = null;
+  /**
+   * Any errors involving this incident.
+   */
+  JSONArray error = null; // Is there an error involving this incident.
 
-    // +--------------+---------------------------------------------------
-    // | Constructors |
-    // +--------------+
+  /**
+   * Any additional fields provided by this Ushahidi installation.
+   */
+  JSONArray customFields = null;
 
-    /**
-     * Create an empty incident. Used mostly for testing.
-     */
-    public UshahidiIncident() {
-    } // UshahidiIncident()
+  // +--------------+---------------------------------------------------
+  // | Constructors |
+  // +--------------+
 
-    /**
-     * Create a basic incident with only id and title. Also used primarily for
-     * testing.
-     */
-    public UshahidiIncident(int id, String title) {
-	this.id = id;
-	this.title = title;
-    } // UshahidiIncident(int, String)
+  /**
+   * Create an empty incident. Used mostly for testing.
+   */
+  public UshahidiIncident()
+  {
+  } // UshahidiIncident()
 
-    /**
-     * Create an incident with many of the important fields. The incident is
-     * marked as active and verified.
-     */
-    public UshahidiIncident(int id, String title, Calendar date,
-	    UshahidiLocation location, String description) {
-	this.id = id;
-	this.title = title;
-	this.date = date;
-	this.location = location;
-	this.mode = 0;
-	this.active = 1;
-	this.verified = 1;
-	this.description = description;
-    } // UshahidiIncident(int, String, Calendar, Location)
+  /**
+   * Create a basic incident with only id and title. Also used primarily for
+   * testing.
+   */
+  public UshahidiIncident(int id, String title)
+  {
+    this.id = id;
+    this.title = title;
+  } // UshahidiIncident(int, String)
 
-    /**
-     * Create an incident from a partially parsed JSON response.
-     * 
-     * @exception JSONException
-     *                if it is unable to get one of the required fields from the
-     *                JSON object.
-     * @exception ParseException
-     *                if it is unable to convert the required field to the
-     *                appropriate type.
-     */
-    UshahidiIncident(JSONObject input) throws JSONException, ParseException {
-	JSONObject incident = input.getJSONObject("incident");
+  /**
+   * Create an incident with many of the important fields. The incident is
+   * marked as active and verified.
+   */
+  public UshahidiIncident(int id, String title, LocalDateTime date,
+                          UshahidiLocation location, String description)
+  {
+    this.id = id;
+    this.title = title;
+    this.date = date;
+    this.location = location;
+    this.mode = 0;
+    this.active = 1;
+    this.verified = 1;
+    this.description = description;
+  } // UshahidiIncident(int, String, LocalDateTime , Location)
 
-	// Get basic fields
-	this.id = incident.getInt("incidentid");
-	this.title = incident.getString("incidenttitle");
-	this.description = incident.getString("incidentdescription");
-	this.date = Calendar.getInstance();
-	this.date.setTime(dateFormat.parse(incident.getString("incidentdate")));
-	this.mode = incident.getInt("incidentmode");
-	this.active = incident.getInt("incidentactive");
-	this.verified = incident.getInt("incidentverified");
+  /**
+   * Create an incident from a partially parsed JSON response.
+   * 
+   * @exception JSONException
+   *                if it is unable to get one of the required fields from the
+   *                JSON object.
+   * @exception ParseException
+   *                if it is unable to convert the required field to the
+   *                appropriate type.
+   */
+  UshahidiIncident(JSONObject input) throws JSONException, ParseException
+  {
+    JSONObject incident = input.getJSONObject("incident");
 
-	// Not all incidents have locations, or may have only partial
-	// information on the location. The following sections deal
-	// with most location issues.
-	int locationId;
-	String locationName;
-	double locationLatitude;
-	double locationLongitude;
+    // Get basic fields
+    this.id = incident.getInt("incidentid");
+    this.title = incident.getString("incidenttitle");
+    this.description = incident.getString("incidentdescription");
+    this.date =
+        LocalDateTime.parse(incident.getString("incidentdate"), dateInputFormat);
+    this.mode = incident.getInt("incidentmode");
+    this.active = incident.getInt("incidentactive");
+    this.verified = incident.getInt("incidentverified");
 
-	try {
-	    locationName = incident.getString("locationname");
-	} catch (Exception e) {
-	    locationName = "";
-	}
-	try {
-	    locationId = incident.getInt("incidentid");
-	    if (locationId == 0)
-		locationId = UshahidiLocation.INVALID_LOCATION_ID;
-	} catch (Exception e) {
-	    locationId = UshahidiLocation.INVALID_LOCATION_ID;
-	} // catch (Exception)
-	try {
-	    locationLatitude = incident.getDouble("locationlatitude");
-	} catch (Exception e) {
-	    locationLatitude = UshahidiLocation.NO_LATITUDE;
-	} // catch (Exception)
-	try {
-	    locationLongitude = incident.getDouble("locationlongitude");
-	} catch (Exception e) {
-	    locationLongitude = UshahidiLocation.NO_LONGITUDE;
-	} // catch (Exception)
+    // Not all incidents have locations, or may have only partial
+    // information on the location. The following sections deal
+    // with most location issues.
+    int locationId;
+    String locationName;
+    double locationLatitude;
+    double locationLongitude;
 
-	this.location = new UshahidiLocation(locationId, locationName,
-		locationLatitude, locationLongitude);
+    try
+      {
+        locationName = incident.getString("locationname");
+      }
+    catch (Exception e)
+      {
+        locationName = "";
+      }
+    try
+      {
+        locationId = incident.getInt("incidentid");
+        if (locationId == 0)
+          locationId = UshahidiLocation.INVALID_LOCATION_ID;
+      }
+    catch (Exception e)
+      {
+        locationId = UshahidiLocation.INVALID_LOCATION_ID;
+      } // catch (Exception)
+    try
+      {
+        locationLatitude = incident.getDouble("locationlatitude");
+      }
+    catch (Exception e)
+      {
+        locationLatitude = UshahidiLocation.NO_LATITUDE;
+      } // catch (Exception)
+    try
+      {
+        locationLongitude = incident.getDouble("locationlongitude");
+      }
+    catch (Exception e)
+      {
+        locationLongitude = UshahidiLocation.NO_LONGITUDE;
+      } // catch (Exception)
 
-	// Get compound fields. Right now, we don't reveal this to the client.
-	categories = input.getJSONArray("categories");
-	media = input.getJSONArray("media");
-	comments = input.getJSONArray("comments");
+    this.location =
+        new UshahidiLocation(locationId, locationName, locationLatitude,
+                             locationLongitude);
 
-	// Get the error messages
-	try {
-	    error = input.getJSONArray("error");
-	} // try{error = input.getJSONArray("error")}
-	catch (JSONException e) {
-	    error = null;
-	} // catch(JSONException e)
+    // Get compound fields. Right now, we don't reveal this to the client.
+    categories = input.getJSONArray("categories");
+    media = input.getJSONArray("media");
+    comments = input.getJSONArray("comments");
 
-	// Get the array of custom fields
-	try {
-	    customFields = input.getJSONArray("customfields");
-	} // try{customFields = input.getJSONArray("customfields")}
-	catch (JSONException e) {
-	    customFields = null;
-	} // catch(JSONException e)
-    } // UshahidiIncident(JSONObject)
+    // Get the error messages
+    try
+      {
+        error = input.getJSONArray("error");
+      } // try{error = input.getJSONArray("error")}
+    catch (JSONException e)
+      {
+        error = null;
+      } // catch(JSONException e)
 
-    // +-----------------+------------------------------------------------
-    // | Local Utilities |
-    // +-----------------+
+    // Get the array of custom fields
+    try
+      {
+        customFields = input.getJSONArray("customfields");
+      } // try{customFields = input.getJSONArray("customfields")}
+    catch (JSONException e)
+      {
+        customFields = null;
+      } // catch(JSONException e)
+  } // UshahidiIncident(JSONObject)
 
-    /**
-     * Format the date nicely.
-     */
-    String formatDate(Calendar date) {
-	return date.get(Calendar.YEAR) + "-" + date.get(Calendar.MONTH) + "-"
-		+ date.get(Calendar.DAY_OF_MONTH);
-    } // formatDate
+  // +-----------------+------------------------------------------------
+  // | Local Utilities |
+  // +-----------------+
 
-    // +-------------------------+----------------------------------------
-    // | Standard Object Methods |
-    // +-------------------------+
+  /**
+   * Format the date nicely.
+   */
+  String formatDate(LocalDateTime date)
+  {
+    if (date == null)
+      {
+        return "<no date>";
+      } // if there is no date
+    else
+      {
+        return date.format(dateOutputFormat);
+      } // if there is a date
+  } // formatDate
 
-    /**
-     * Convert the incident to a string (e.g., for printing).
-     */
-    public String toString() {
-	return this.toString(", ");
-    } // toString()
+  // +-------------------------+----------------------------------------
+  // | Standard Object Methods |
+  // +-------------------------+
 
-    /**
-     * Convert the incident to a string, using sep to separate the items.
-     */
-    public String toString(String sep) {
-	return "INCIDENT [" + "Title: " + this.title + sep + "ID: " + this.id
-		+ sep + "Description: " + this.description + sep + "Date: "
-		+ formatDate(this.date) + sep + "Location: " + this.location
-		+ "]";
-    } // toString(String)
+  /**
+   * Convert the incident to a string (e.g., for printing).
+   */
+  public String toString()
+  {
+    return this.toString(", ");
+  } // toString()
 
-    // +---------+--------------------------------------------------------
-    // | Getters |
-    // +---------+
+  /**
+   * Convert the incident to a string, using sep to separate the items.
+   */
+  public String toString(String sep)
+  {
+    return "INCIDENT [" + "Title: " + this.title + sep + "ID: " + this.id + sep
+           + "Description: " + this.description + sep + "Date: "
+           + formatDate(this.date) + sep + "Location: " + this.location + "]";
+  } // toString(String)
 
-    /**
-     * Get the id of the current incident. Returns INVALID_INCIDENT_ID for an
-     * unitialized or otherwise defective incident.
-     */
-    public int getId() {
-	return this.id;
-    } // getId()
+  // +---------+--------------------------------------------------------
+  // | Getters |
+  // +---------+
 
-    /**
-     * Get the title of the incident.
-     */
-    public String getTitle() {
-	return this.title;
-    } // getTitle()
+  /**
+   * Get the id of the current incident. Returns INVALID_INCIDENT_ID for an
+   * unitialized or otherwise defective incident.
+   */
+  public int getId()
+  {
+    return this.id;
+  } // getId()
 
-    /**
-     * Get a description of the incident. This may be an empty string.
-     */
-    public String getDescription() {
-	return this.description;
-    } // getDescription()
+  /**
+   * Get the title of the incident.
+   */
+  public String getTitle()
+  {
+    return this.title;
+  } // getTitle()
 
-    /**
-     * Get the date the incident was reported.
-     */
-    public Calendar getDate() {
-	return this.date;
-    } // getDate()
+  /**
+   * Get a description of the incident. This may be an empty string.
+   */
+  public String getDescription()
+  {
+    return this.description;
+  } // getDescription()
 
-    /**
-     * Get the mode of the incident.
-     */
-    public int getMode() {
-	return this.mode;
-    } // getMode()
+  /**
+   * Get the date the incident was reported.
+   */
+  public LocalDateTime getDate()
+  {
+    return this.date;
+  } // getDate()
 
-    /**
-     * Determine whether or not the incident is active.
-     */
-    public int getActive() {
-	return this.active;
-    } // getActive()
+  /**
+   * Get the mode of the incident.
+   */
+  public int getMode()
+  {
+    return this.mode;
+  } // getMode()
 
-    /**
-     * Determine whether or not the incident is verified.
-     */
-    public int getVerified() {
-	return this.verified;
-    } // getVerified()
+  /**
+   * Determine whether or not the incident is active.
+   */
+  public int getActive()
+  {
+    return this.active;
+  } // getActive()
 
-    /**
-     * Get the location of the incident. Returns null if no location has been
-     * assigned.
-     */
-    public UshahidiLocation getLocation() {
-	return this.location;
-    } // getLocation
+  /**
+   * Determine whether or not the incident is verified.
+   */
+  public int getVerified()
+  {
+    return this.verified;
+  } // getVerified()
+
+  /**
+   * Get the location of the incident. Returns null if no location has been
+   * assigned.
+   */
+  public UshahidiLocation getLocation()
+  {
+    return this.location;
+  } // getLocation
 } // UshahidiIncident

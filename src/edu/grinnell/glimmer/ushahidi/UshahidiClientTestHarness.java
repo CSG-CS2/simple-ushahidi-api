@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2013 Samuel A. Rebelsky.  All rights reserved.
+ * Copyright (c) 2013-14 Samuel A. Rebelsky.  All rights reserved.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the Lesser GNU General Public License as published 
@@ -24,38 +24,42 @@ import java.util.Collection;
  * set up a simulated set of incidents and treat it as you would an
  * UshahidiWebClient.
  * 
- * @version 0.3 of 25 September 2013
+ * @version 0.4 of 23 August 2014
  * @author Samuel A. Rebelsky
  */
-public class UshahidiClientTestHarness extends UshahidiIncidentList {
-    // +--------+---------------------------------------------------------
-    // | Notess |
-    // +--------+
-    /*
-     * Although UshahidiClientTestHarness is much like UshahidiIncidentList, it
-     * is provided as a separate class in case we want to add some methods to
-     * make testing easier, such as methods to add random elements. (I'm not
-     * sure why random elements would be useful for testing, but, hey, you never
-     * know.)
-     */
+public class UshahidiClientTestHarness
+    extends UshahidiIncidentList
+{
+  // +--------+---------------------------------------------------------
+  // | Notess |
+  // +--------+
+  /*
+   * Although UshahidiClientTestHarness is much like UshahidiIncidentList, it
+   * is provided as a separate class in case we want to add some methods to
+   * make testing easier, such as methods to add random elements. (I'm not
+   * sure why random elements would be useful for testing, but, hey, you never
+   * know.)
+   */
 
-    // +--------------+---------------------------------------------------
-    // | Constructors |
-    // +--------------+
+  // +--------------+---------------------------------------------------
+  // | Constructors |
+  // +--------------+
 
-    /**
-     * Create a new test harness with no incidents.
-     */
-    public UshahidiClientTestHarness() {
-	super();
-    } // UshahidiClientTestHarness
+  /**
+   * Create a new test harness with no incidents.
+   */
+  public UshahidiClientTestHarness()
+  {
+    super();
+  } // UshahidiClientTestHarness
 
-    /**
-     * Create a new test harness with a specified set of incidents.
-     */
-    public UshahidiClientTestHarness(Collection<UshahidiIncident> incidents) {
-	super(incidents);
-    } // UshahidiClientTestHarness(Collection<UshahidiIncident>)
+  /**
+   * Create a new test harness with a specified set of incidents.
+   */
+  public UshahidiClientTestHarness(Collection<UshahidiIncident> incidents)
+  {
+    super(incidents);
+  } // UshahidiClientTestHarness(Collection<UshahidiIncident>)
 
 } // UshahidiClientTestHarness
 

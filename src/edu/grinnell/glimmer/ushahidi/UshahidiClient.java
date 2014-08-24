@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2013 Samuel A. Rebelsky.  All rights reserved.
+ * Copyright (c) 2013-14 Samuel A. Rebelsky.  All rights reserved.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the Lesser GNU General Public License as published 
@@ -22,27 +22,29 @@ package edu.grinnell.glimmer.ushahidi;
  * iterator style (but without using Iterators, so that novices can use it) and
  * as an array.
  * 
- * @version 0.3 of 25 September 2013
+ * @version 0.4 of 23 August 2014
  * @author Samuel A. Rebelsky
  */
-public interface UshahidiClient {
-    /**
-     * Get all of the incidents associated with this instance.
-     */
-    public UshahidiIncident[] getIncidents();
+public interface UshahidiClient
+{
+  /**
+   * Get all of the incidents associated with this instance.
+   */
+  public UshahidiIncident[] getIncidents();
 
-    /**
-     * Determine if any unseen incidents remain.
-     */
-    public boolean hasMoreIncidents();
+  /**
+   * Determine if any unseen incidents remain.
+   */
+  public boolean hasMoreIncidents();
 
-    /**
-     * Get the next unseen incident.
-     * 
-     * @throws Exception
-     *             If no incidents remain.
-     */
-    public UshahidiIncident nextIncident() throws Exception;
+  /**
+   * Get the next unseen incident.
+   * 
+   * @throws Exception
+   *             If no incidents remain.
+   */
+  public UshahidiIncident nextIncident()
+    throws Exception;
 
 } // UshahidiClient
 

@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2013 Samuel A. Rebelsky.  All rights reserved.
+ * Copyright (c) 2013-14 Samuel A. Rebelsky.  All rights reserved.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the Lesser GNU General Public License as published 
@@ -23,24 +23,28 @@ package edu.grinnell.glimmer.ushahidi;
  * incidents (as compared to the approved incidents provided by clients).
  * Administrators also provide capabilities to approve and delete incidents.
  * 
- * @version 0.3 of 25 September 2013
+ * @version 0.4 of 23 August 2014
  * @author Samuel A. Rebelsky
  */
-public interface UshahidiAdmin extends UshahidiClient {
-    /**
-     * Approve an incident.
-     * 
-     * @throws Exception
-     *             if no such incident exists.
-     */
-    public String approve(int incidentid) throws Exception;
+public interface UshahidiAdmin
+    extends UshahidiClient
+{
+  /**
+   * Approve an incident.
+   * 
+   * @throws Exception
+   *             if no such incident exists.
+   */
+  public String approve(int incidentid)
+    throws Exception;
 
-    /**
-     * Delete an incident.
-     * 
-     * @throws Exception
-     *             if no such incident exists.
-     */
-    public String delete(int incidentid) throws Exception;
+  /**
+   * Delete an incident.
+   * 
+   * @throws Exception
+   *             if no such incident exists.
+   */
+  public String delete(int incidentid)
+    throws Exception;
 } // UshahidiAdmin
 
