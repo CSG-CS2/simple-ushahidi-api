@@ -1,0 +1,6 @@
+#!/bin/bash
+
+# webclient site
+#   A quick and dirty script to run the Ushahidi Java web client.
+
+java -cp ".:../simple-ushahidi-api.jar:../json.jar" WebClientExperiment $1
