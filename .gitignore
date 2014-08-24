@@ -1,6 +1,12 @@
 *.class
+*.swp
 
 # Package Files #
 *.jar
 *.war
 *.ear
+
+# Some things related to Eclipse
+/bin/
+.project
+.classpath
