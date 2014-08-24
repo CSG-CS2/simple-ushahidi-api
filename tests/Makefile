@@ -1,7 +1,12 @@
 default: compile
 
+CLASSPATH=".:../simple-ushahidi-api.jar:../json.jar"
+
 %.class: %.java
-	javac -cp ../simple-ushahidi-api.jar $<
+	javac -cp $(CLASSPATH) $<
+
+%.run: %.class
+	java -cp $(CLASSPATH) $*
 
 .PHONY: clean
 clean:
@@ -9,7 +14,7 @@ clean:
 
 .PHONY: compile
 compile:
-	javac -cp ../simple-ushahidi-api.jar *.java
+	javac -cp $(CLASSPATH) *.java
 
 .PHONY: jar
 jar:
@@ -17,26 +22,24 @@ jar:
 
 .PHONY: harness
 harness: TestHarnessClientExperiment.class
-	java -cp ".:../simple-ushahidi-api.jar:../json.jar" \
-		TestHarnessClientExperiment
+	java -cp $(CLASSPATH) TestHarnessClientExperiment
 
 .PHONY: sandbox
 sandbox: WebClientExperiment.class
-	java -cp ".:../simple-ushahidi-api.jar:../json.jar" \
+	java -cp $(CLASSPATH) \
 		WebClientExperiment http://ushahidi1.grinnell.edu/sandbox
 
 .PHONY: global
 global: WebClientExperiment.class
-	java -cp ".:../simple-ushahidi-api.jar:../json.jar" \
+	java -cp $(CLASSPATH) \
 		WebClientExperiment http://ushahidi1.grinnell.edu/global
 
 .PHONY: global-array
 global-array: WebClientArrayExperiment.class
-	java -cp ".:../simple-ushahidi-api.jar:../json.jar" \
+	java -cp $(CLASSPATH) \
 		WebClientArrayExperiment http://ushahidi1.grinnell.edu/global
 
 .PHONY: report
 report: WebReporterExperiment.class
-	java -cp ".:../simple-ushahidi-api.jar:../json.jar" \
-                WebReporterExperiment
+	java -cp $(CLASSPATH) WebReporterExperiment
 	
