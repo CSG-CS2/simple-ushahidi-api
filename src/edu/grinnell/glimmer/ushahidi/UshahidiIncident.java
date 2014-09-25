@@ -31,7 +31,7 @@ import org.json.JSONArray;
  * A simple representation of Ushahidi incidents. Currently gives access only to
  * the primary fields.
  * 
- * @version 0.4 of 23 August 2014
+ * @version 0.5.1 of 24 September 2014
  * @author Samuel A. Rebelsky
  * @author Daniel Torres
  */
@@ -148,7 +148,12 @@ public class UshahidiIncident
 
   /**
    * Create a basic incident with only id and title. Also used primarily for
-   * testing.
+   * testing.  The incident may or may not be marked as active and verified.
+   *
+   * @param id
+   *            The id of the new incident.
+   * @param title
+   *            The title of the incident.
    */
   public UshahidiIncident(int id, String title)
   {
@@ -177,6 +182,10 @@ public class UshahidiIncident
 
   /**
    * Create an incident from a partially parsed JSON response.
+   *
+   * @param input
+   *            A piece JSON code returned by the Ushahidi Web API
+   *            and then parsed by the standard JSON parser.
    * 
    * @exception JSONException
    *                if it is unable to get one of the required fields from the
@@ -321,6 +330,10 @@ public class UshahidiIncident
 
   /**
    * Convert the incident to a string (e.g., for printing).
+   *
+   * @return
+   *            A string containing most of the important fields (both
+   *            name and value), separated by commas.
    */
   public String toString()
   {
@@ -329,6 +342,12 @@ public class UshahidiIncident
 
   /**
    * Convert the incident to a string, using sep to separate the items.
+   *
+   * @param     sep
+   *            A string used to separate the items.
+   * @return
+   *            A string containing most of the important fields (both
+   *            name and value), separated by commas.
    */
   public String toString(String sep)
   {
@@ -343,8 +362,12 @@ public class UshahidiIncident
   // +---------+
 
   /**
-   * Get the id of the current incident. Returns INVALID_INCIDENT_ID for an
-   * unitialized or otherwise defective incident.
+   * Get the id of the current incident. 
+   *
+   * @return
+   *            The id of the incident, if it has one.
+   *            <code>INVALID_INCIDENT_ID</code> if the inciddent is
+   *            unitialized or otherwise defective.
    */
   public int getId()
   {
@@ -353,6 +376,10 @@ public class UshahidiIncident
 
   /**
    * Get the title of the incident.
+   *
+   * @return
+   *            The title of the incident, if it was specified.
+   *            Otherwise, the empty string.
    */
   public String getTitle()
   {
@@ -360,7 +387,11 @@ public class UshahidiIncident
   } // getTitle()
 
   /**
-   * Get a description of the incident. This may be an empty string.
+   * Get a description of the incident. 
+   *
+   * @return
+   *            A description of the incident, if it was specified.
+   *            Otherwise, the empty string.
    */
   public String getDescription()
   {
@@ -369,6 +400,10 @@ public class UshahidiIncident
 
   /**
    * Get the date the incident was reported.
+   *
+   * @return
+   *            The date the incident was reported, if it is available.
+   *            <code>null</code>, otherwise.
    */
   public LocalDateTime getDate()
   {
@@ -376,7 +411,11 @@ public class UshahidiIncident
   } // getDate()
 
   /**
-   * Get the mode of the incident.
+   * Get the mode of the incident.  (No, I don't know what a mode is.
+   * But it's in the spec.)
+   *
+   * @return
+   *            Your guess is as good as mine.
    */
   public int getMode()
   {
@@ -384,24 +423,28 @@ public class UshahidiIncident
   } // getMode()
 
   /**
-   * Determine whether or not the incident is active.
+   * Determine whether or not the incident is active.  
+   *
    */
-  public int getActive()
+  public boolean getActive()
   {
-    return this.active;
+    return this.active != 0;
   } // getActive()
 
   /**
    * Determine whether or not the incident is verified.
    */
-  public int getVerified()
+  public boolean getVerified()
   {
-    return this.verified;
+    return this.verified != 0;
   } // getVerified()
 
   /**
-   * Get the location of the incident. Returns null if no location has been
-   * assigned.
+   * Get the location of the incident. 
+   *
+   * @return
+   *            The location of the incident, if one has been assigned.
+   *            <code>null</code>, if no location has been assigned.
    */
   public UshahidiLocation getLocation()
   {
@@ -410,6 +453,9 @@ public class UshahidiIncident
 
   /**
    * Get the names of all the custom fields.
+   *
+   * @return
+   *            An array of strings.
    */
   public String[] getCustomFieldNames()
   {
@@ -433,6 +479,11 @@ public class UshahidiIncident
 
   /**
    * Get a custom field with a particular name.
+   *
+   * @return 
+   *   Some undetermined representation of the value of that field.
+   * @throws Exception
+   *   If the field is not available.
    */
   public Object getCustomField(String name)
     throws Exception

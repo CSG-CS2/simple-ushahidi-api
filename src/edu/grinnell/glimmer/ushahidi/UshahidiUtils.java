@@ -27,7 +27,7 @@ import java.time.LocalDateTime;
 /**
  * Utilities for working with Ushahidi.
  * 
- * @version 0.4 of 23 August 2014
+ * @version 0.4.1 of 24 September 2014
  * @author Daniel Torres
  * @author Samuel A. Rebelsky
  */
@@ -73,7 +73,13 @@ public class UshahidiUtils
   // | Static Random Methods |
   // +-----------------------+
   /**
-   * Get a random number between 0 and n-1.
+   * Get a random integer between 0 and n-1.
+   *
+   * @param n
+   *   The upper bound on the value returned.
+   * @return
+   *   A non-negative value r that is strictly less than n and
+   *   is difficult to predict.
    */
   static int random(int n)
   {
@@ -82,6 +88,12 @@ public class UshahidiUtils
 
   /**
    * Get a random number between 0 and n-1.
+   *
+   * @param n
+   *   The upper bound on the value returned.
+   * @return
+   *   A non-negative value r that is strictly less than n and
+   *   is difficult to predict.
    */
   static long random(long n)
   {
@@ -90,6 +102,9 @@ public class UshahidiUtils
 
   /**
    * Create a "random" date.
+   *
+   * return
+   *   A date that is difficult to predict.
    */
   public static LocalDateTime randomDate()
   {
@@ -98,6 +113,11 @@ public class UshahidiUtils
 
   /**
    * Create a "random" location.
+   *
+   * @return
+   *            A location with an unpredictable id, a boring name,
+   *            and unpredictable latitude and longitude.  (Well,
+   *            all are difficult to predict, rather than unpredictable.)
    */
   public static UshahidiLocation randomLocation()
   {
@@ -113,6 +133,9 @@ public class UshahidiUtils
 
   /**
    * Create a sample location.
+   *
+   * @return
+   *            A consistent location.
    */
   static UshahidiLocation sampleLocation()
   {
@@ -123,6 +146,10 @@ public class UshahidiUtils
 
   /**
    * Create a "random" incident.
+   *
+   * @return
+   *            An incident whose contents are somewhat difficult
+   *            to predict.
    */
   public static UshahidiIncident randomIncident()
   {
@@ -139,6 +166,10 @@ public class UshahidiUtils
 
   /**
    * Create a sample incident.
+   *
+   * @return
+   *            An incident with id of 1, categories 1 and 2, the
+   *            current date, and the sample location (see above).
    */
   static UshahidiIncident sampleIncident()
   {
@@ -158,6 +189,10 @@ public class UshahidiUtils
 
   /**
    * Create a list of sample incidents.
+   *
+   * @return
+   *            A list of a few incidents, primarily used for
+   *            experimentation and testing.
    */
   static UshahidiIncidentList sampleIncidentList()
   {
@@ -203,11 +238,16 @@ public class UshahidiUtils
   /**
    * Read all of the data from a source using a specified buffer size.
    *
-   * @throws IOException
-   *    If an I/O error occurs.
-   *
    * Based on code by Paul de Vrieze and found at
    *   http://stackoverflow.com/questions/309424/read-convert-an-inputstream-to-a-string
+   *
+   * @param source
+   *   The source to read the data from.
+   * @param bufsize
+   *    The number of bytes to read at a time.  <code>DEFAULT_BUFFER_SIZE</code>
+   *    is a reasonable buffer size.
+   * @throws IOException
+   *   If an I/O error occurs.
    */
   public static String readAll(Reader source, final int bufsize)
     throws IOException
@@ -226,6 +266,9 @@ public class UshahidiUtils
 
   /**
    * Read all of the data from a source.
+   *
+   * @throws IOException
+   *   When an attempt to read from the source fails.
    */
   public static String readAll(Reader source)
     throws IOException
@@ -235,6 +278,9 @@ public class UshahidiUtils
 
   /**
    * Read all of the data from a source, using a particular encoding.
+   *
+   * @throws IOException
+   *   When an attempt to read from the source fails.
    */
   public static String readAll(InputStream source, String encoding)
     throws IOException
@@ -248,6 +294,9 @@ public class UshahidiUtils
   /**
    * Read all of the data from a source, using the default (UTF-8)
    * encoding.
+   *
+   * @throws IOException
+   *   When an attempt to read from the source fails.
    */
   public static String readAll(InputStream source)
     throws IOException

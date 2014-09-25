@@ -21,7 +21,7 @@ package edu.grinnell.glimmer.ushahidi;
 /**
  * A simple representation of locations of Ushahidi incidents.
  * 
- * @version 0.4 of 24 August 2014
+ * @version 0.4.1 of 24 September 2014
  * @author Samuel A. Rebelsky
  * @author Daniel Torres
  */
@@ -83,7 +83,14 @@ public class UshahidiLocation
   } // UshahidiLocation()
 
   /**
-   * Create a location given only id and name.
+   * Create a location given only id and name.  Such a location has
+   * no known latitude and longitude.
+   *
+   * @param id
+   *            The unique identifier used to mark this location.
+   * @param name
+   *            A human-readable description of the location (e.g., "Boston"
+   *            or "4th and Main")
    */
   public UshahidiLocation(int id, String name)
   {
@@ -93,6 +100,16 @@ public class UshahidiLocation
 
   /**
    * Create a location given all the main components.
+   *
+   * @param id
+   *            The unique identifier used to mark this location.
+   * @param name
+   *            A human-readable description of the location (e.g., "Boston"
+   *            or "4th and Main")
+   * @param latitude
+   *            Kind of like attitude, but not.
+   * @param longitude
+   *            Kind of like latitude, but not.
    */
   public UshahidiLocation(int id, String name, double latitude, double longitude)
   {
@@ -108,6 +125,10 @@ public class UshahidiLocation
 
   /**
    * Convert the location to a string (e.g., for printing).
+   *
+   * @return
+   *            A string containing all of the components, with both name 
+   *            and value, separated by commas.
    */
   public String toString()
   {
@@ -116,6 +137,12 @@ public class UshahidiLocation
 
   /**
    * Convert the location to a string, using sep to separate the items.
+   *
+   * @param sep
+   *            A sequence to put between each component.
+   * @return
+   *            A string containing all of the components, with both name 
+   *            and value, separated by sep.
    */
   public String toString(String sep)
   {
@@ -130,6 +157,9 @@ public class UshahidiLocation
 
   /**
    * Get the id.
+   *
+   * @return
+   *            A unique identifier for this location.
    */
   public int getId()
   {
@@ -138,6 +168,9 @@ public class UshahidiLocation
 
   /**
    * Get the name.
+   *
+   * @return
+   *            A human-readable description of this location.
    */
   public String getName()
   {
@@ -146,6 +179,9 @@ public class UshahidiLocation
 
   /**
    * Get the latitude.
+   *
+   * @return
+   *            The latitude of this location.
    */
   public double getLatitude()
   {
@@ -154,6 +190,9 @@ public class UshahidiLocation
 
   /**
    * Get the longitude.
+   *
+   * @return
+   *            The longitude of this location.
    */
   public double getLongitude()
   {

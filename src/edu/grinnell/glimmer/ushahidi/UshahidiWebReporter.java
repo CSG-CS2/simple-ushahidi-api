@@ -30,6 +30,9 @@ import org.json.JSONObject;
 
 /**
  * A mechanism for sending reports to Ushahidi Web servers.
+ * 
+ * @version 0.1.1 of 24 September 2014
+ * @author Samuel A. Rebelsky
  */
 public class UshahidiWebReporter
 {
@@ -50,11 +53,16 @@ public class UshahidiWebReporter
 
   /**
    * Convert an array of categories into a string listing their ids,
-   * separted by commas.  (Should probably be rewritten to use a
-   * functional style, but the functional style is verbose in Java.)
+   * separated by commas. 
+   *
+   * @return
+   *            The string described above.
    */
   static String categoriesToString(UshahidiCategory[] categories)
   {
+    // Should probably be rewritten to use a functional style, but 
+    // the functional style is verbose in Java.
+
     // Sanity check
     if ((categories == null) || (categories.length == 0))
       return "";
@@ -76,6 +84,13 @@ public class UshahidiWebReporter
 
   /**
    * Submit an incident to a server.
+   *
+   * @param server
+   *            The full URL of the server, including the protocol.
+   *            Must not be null.  Must include all the major fields.
+   * 
+   * @param incident
+   *            The incident to submit.  Must be non-null.
    *
    * @throws Exception
    *            If there is not enough data to submit a full report.

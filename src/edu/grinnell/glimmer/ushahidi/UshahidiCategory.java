@@ -21,7 +21,7 @@ package edu.grinnell.glimmer.ushahidi;
 /**
  * A simple representation of categories for Ushahidi incidents.
  * 
- * @version 0.1 of 24 August 2014
+ * @version 0.1.1 of 24 September 2014
  * @author Samuel A. Rebelsky
  */
 public class UshahidiCategory
@@ -46,6 +46,9 @@ public class UshahidiCategory
 
   /**
    * Create a category with just an id
+   *
+   * @param id
+   *            A unique number used to identify the category.
    */
   public UshahidiCategory(int id)
   {
@@ -55,6 +58,11 @@ public class UshahidiCategory
 
   /**
    * Create a category given both id and name.
+   *
+   * @param id
+   *            A unique number used to identify the category.
+   * @param name
+   *            A string that humans can use to refer to the category.
    */
   public UshahidiCategory(int id, String name)
   {
@@ -80,6 +88,10 @@ public class UshahidiCategory
 
   /**
    * Get the id.
+   *
+   * @return
+   *            The unique identifier that this Ushahidi installation
+   *            uses for this category.
    */
   public int getId()
   {
@@ -88,6 +100,9 @@ public class UshahidiCategory
 
   /**
    * Get the name.
+   *
+   * @return
+   *            A string humans use to refer to the category.
    */
   public String getName()
   {

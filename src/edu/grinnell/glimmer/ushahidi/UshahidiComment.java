@@ -23,7 +23,7 @@ import java.time.LocalDateTime;
 /**
  * A simple representation of comments on Ushahidi incidents.
  * 
- * @version 0.1 of 24 August 2014
+ * @version 0.1.1 of 24 September 2014
  * @author Samuel A. Rebelsky
  */
 public class UshahidiComment
@@ -81,6 +81,10 @@ public class UshahidiComment
 
   /**
    * Convert the comment to a string (e.g., for printing).
+   *
+   * @return
+   *            A human-readable version of the comment, including
+   *            the id, author, contents, and more.
    */
   public String toString()
   {
@@ -94,7 +98,10 @@ public class UshahidiComment
   // +---------+
 
   /**
-   * Get the id.
+   * Get the id of this comment.
+   *
+   * @return
+   *            The id.
    */
   public int getId()
   {
@@ -102,7 +109,10 @@ public class UshahidiComment
   } // getId()
 
   /**
-   * Get the incident.
+   * Get the id of the incident this comment reports on.
+   *
+   * @return
+   *            The id.
    */
   public int getIncident()
   {
@@ -110,7 +120,12 @@ public class UshahidiComment
   } // getIncident()
 
   /**
-   * Get the description.
+   * Get the description of the comment (the contents).  Why is this
+   * called "description" and not "contents"?  We are following the
+   * model of the Ushahidi Web API.
+   *
+   * @return
+   *            A potentially long string.
    */
   public String getDescription()
   {
@@ -118,15 +133,21 @@ public class UshahidiComment
   } // getDescription()
 
   /**
-   * Get the author.
+   * Get the author of the comment.
    *
+   * @return
+   *   A string that gives the name of the author.
+   */
   public String getAuthor()
   {
     return this.author;
   } // getAuthor()
 
   /**
-   * Get the date.
+   * Get the date that the comment was submitted.
+   *
+   * @return
+   *   The date the comment was submitted.
    */
   public LocalDateTime getDate()
   {

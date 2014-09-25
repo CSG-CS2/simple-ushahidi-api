@@ -30,7 +30,7 @@ import org.json.JSONObject;
  * An Ushahidi client that gets data from the Web. The most typical form of
  * Ushahidi client.
  * 
- * @version 0.4 of 24 August 2014
+ * @version 0.4.1 of 24 September 2014
  * @author Samuel A. Rebelsky
  * @author Daniel Torres
  */

@@ -22,24 +22,35 @@ package edu.grinnell.glimmer.ushahidi;
  * iterator style (but without using Iterators, so that novices can use it) and
  * as an array.
  * 
- * @version 0.4 of 23 August 2014
+ * @version 0.4.1 of 24 September 2014
  * @author Samuel A. Rebelsky
  */
 public interface UshahidiClient
 {
   /**
    * Get all of the incidents associated with this instance.
+   * It is generally nicer to grab incidents one-by-one, but
+   * getting all of them can be useful for certain circumstances.
+   *
+   * @return
+   *            An array of incidents, in no specified order.
    */
   public UshahidiIncident[] getIncidents();
 
   /**
    * Determine if any unseen incidents remain.
+   *
+   * @return true, if incidents remain; false, otherwise.
    */
   public boolean hasMoreIncidents();
 
   /**
    * Get the next unseen incident.
    * 
+   * @return
+   *            Some incident that has not been previously returned,
+   *            assuming such an incident exists.
+   *
    * @throws Exception
    *             If no incidents remain.
    */

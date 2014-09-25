@@ -24,7 +24,7 @@ import java.util.Collection;
  * A simplified list of incidents, provided in a style similar to that used for
  * UshahidiClient. Used in a variety of classes that implement UshahidiClient.
  * 
- * @version 0.4 of 23 August 2014
+ * @version 0.4.1 of 24 September 2014
  * @author Samuel A. Rebelsky
  */
 public class UshahidiIncidentList
@@ -81,6 +81,10 @@ public class UshahidiIncidentList
 
   /**
    * Create a new list with a specified set of incidents.
+   *
+   * @param incidents
+   *            The incidents to populate the list.  These should
+   *            be returned by the various methods.
    */
   public UshahidiIncidentList(Collection<UshahidiIncident> incidents)
   {
@@ -94,6 +98,10 @@ public class UshahidiIncidentList
 
   /**
    * Get all of the incidents associated with this list.
+   *
+   * @return
+   *            An array of incidents, in the order they were added to 
+   *            the list.
    */
   public UshahidiIncident[] getIncidents()
   {
@@ -102,6 +110,8 @@ public class UshahidiIncidentList
 
   /**
    * Determine if any unseen incidents remain.
+   *
+   * @return true, if incidents remain; false, otherwise.
    */
   public boolean hasMoreIncidents()
   {
@@ -111,8 +121,11 @@ public class UshahidiIncidentList
   /**
    * Get the next unseen incident.
    * 
+   *
+   * @return
+   *            The next incident in the list, if such an incident exists.
    * @exception Exception
-   *                If no incidents remain.
+   *            If no incidents remain.
    */
   public UshahidiIncident nextIncident()
     throws Exception
@@ -125,7 +138,10 @@ public class UshahidiIncidentList
   // +--------------------+
 
   /**
-   * Add an incident to the list.
+   * Add an incident to the end of the list.
+   *
+   * @param incident
+   *            The incident to add.
    */
   public void addIncident(UshahidiIncident incident)
   {

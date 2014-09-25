@@ -24,7 +24,7 @@ import java.util.Collection;
  * set up a simulated set of incidents and treat it as you would an
  * UshahidiWebClient.
  * 
- * @version 0.4 of 23 August 2014
+ * @version 0.4.1 of 24 September 2014
  * @author Samuel A. Rebelsky
  */
 public class UshahidiClientTestHarness
@@ -33,6 +33,7 @@ public class UshahidiClientTestHarness
   // +--------+---------------------------------------------------------
   // | Notess |
   // +--------+
+
   /*
    * Although UshahidiClientTestHarness is much like UshahidiIncidentList, it
    * is provided as a separate class in case we want to add some methods to
@@ -54,7 +55,10 @@ public class UshahidiClientTestHarness
   } // UshahidiClientTestHarness
 
   /**
-   * Create a new test harness with a specified set of incidents.
+   * Create a new test harness with a specified collection of incidents.
+   *
+   * @param incidents
+   *            The incidents to populate the test harness.
    */
   public UshahidiClientTestHarness(Collection<UshahidiIncident> incidents)
   {

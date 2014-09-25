@@ -23,7 +23,7 @@ package edu.grinnell.glimmer.ushahidi;
  * incidents (as compared to the approved incidents provided by clients).
  * Administrators also provide capabilities to approve and delete incidents.
  * 
- * @version 0.4 of 23 August 2014
+ * @version 0.4.1 of 24 September 2014
  * @author Samuel A. Rebelsky
  */
 public interface UshahidiAdmin
@@ -31,6 +31,12 @@ public interface UshahidiAdmin
 {
   /**
    * Approve an incident.
+   *
+   * @param incidentid
+   *            The id of the incident to approve.
+   *
+   * @return
+   *            Any messages returned by the server.
    * 
    * @throws Exception
    *             if no such incident exists.
@@ -40,6 +46,12 @@ public interface UshahidiAdmin
 
   /**
    * Delete an incident.
+   * 
+   * @return
+   *            Any messages returned by the server.
+   * 
+   * @param incidentid
+   *            The id of the incident to delete.
    * 
    * @throws Exception
    *             if no such incident exists.
