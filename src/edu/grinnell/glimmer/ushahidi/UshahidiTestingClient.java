@@ -20,14 +20,14 @@ package edu.grinnell.glimmer.ushahidi;
 import java.util.Collection;
 
 /**
- * A test harness for programs that work with UshahidiClient objects. Lets you
- * set up a simulated set of incidents and treat it as you would an
- * UshahidiWebClient.
+ * A client for testing programs that work with UshahidiClient objects. 
+ * Lets you set up a simulated set of incidents and treat it as you would 
+ * an UshahidiWebClient.
  * 
- * @version 0.4.1 of 24 September 2014
+ * @version 0.4.2 of 24 September 2014
  * @author Samuel A. Rebelsky
  */
-public class UshahidiClientTestHarness
+public class UshahidiTestingClient
     extends UshahidiIncidentList
 {
   // +--------+---------------------------------------------------------
@@ -35,7 +35,7 @@ public class UshahidiClientTestHarness
   // +--------+
 
   /*
-   * Although UshahidiClientTestHarness is much like UshahidiIncidentList, it
+   * Although UshahidiTestingClient is much like UshahidiIncidentList, it
    * is provided as a separate class in case we want to add some methods to
    * make testing easier, such as methods to add random elements. (I'm not
    * sure why random elements would be useful for testing, but, hey, you never
@@ -49,10 +49,10 @@ public class UshahidiClientTestHarness
   /**
    * Create a new test harness with no incidents.
    */
-  public UshahidiClientTestHarness()
+  public UshahidiTestingClient()
   {
     super();
-  } // UshahidiClientTestHarness
+  } // UshahidiTestingClient
 
   /**
    * Create a new test harness with a specified collection of incidents.
@@ -60,10 +60,10 @@ public class UshahidiClientTestHarness
    * @param incidents
    *            The incidents to populate the test harness.
    */
-  public UshahidiClientTestHarness(Collection<UshahidiIncident> incidents)
+  public UshahidiTestingClient(Collection<UshahidiIncident> incidents)
   {
     super(incidents);
-  } // UshahidiClientTestHarness(Collection<UshahidiIncident>)
+  } // UshahidiTestingClient(Collection<UshahidiIncident>)
 
-} // UshahidiClientTestHarness
+} // UshahidiTestingClient
 
